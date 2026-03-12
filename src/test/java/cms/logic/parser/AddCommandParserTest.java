@@ -155,8 +155,8 @@ public class AddCommandParserTest {
         // zero tags
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
         assertParseSuccess(parser, NAME_DESC_AMY + NUSID_DESC_AMY + ROLE_DESC_AMY + SOCUSERNAME_DESC_AMY
-                + GITHUBUSERNAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + TUTORIALGROUP_DESC_AMY,
+                        + GITHUBUSERNAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                        + TUTORIALGROUP_DESC_AMY,
                 new AddCommand(expectedPerson));
     }
 
@@ -219,8 +219,8 @@ public class AddCommandParserTest {
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + NUSID_DESC_BOB + ROLE_DESC_BOB
-                + SOCUSERNAME_DESC_BOB + GITHUBUSERNAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TUTORIALGROUP_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                        + SOCUSERNAME_DESC_BOB + GITHUBUSERNAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                        + ADDRESS_DESC_BOB + TUTORIALGROUP_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
     }
 }

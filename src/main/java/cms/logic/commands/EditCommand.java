@@ -61,7 +61,7 @@ public class EditCommand extends Command {
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index of the person in the filtered person list to edit
+     * @param index                of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
@@ -111,7 +111,9 @@ public class EditCommand extends Command {
         TutorialGroup updatedTutorialGroup = personToEdit.getTutorialGroup();
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedNusId, updatedSocUsername, updatedGithubUsername, updatedAddress, updatedRole, updatedTutorialGroup, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedNusId,
+                updatedSocUsername, updatedGithubUsername, updatedAddress,
+                updatedRole, updatedTutorialGroup, updatedTags);
     }
 
     @Override
@@ -149,7 +151,8 @@ public class EditCommand extends Command {
         private Address address;
         private Set<Tag> tags;
 
-        public EditPersonDescriptor() {}
+        public EditPersonDescriptor() {
+        }
 
         /**
          * Copy constructor.

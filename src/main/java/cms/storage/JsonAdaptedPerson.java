@@ -12,15 +12,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import cms.commons.exceptions.IllegalValueException;
 import cms.model.person.Address;
 import cms.model.person.Email;
+import cms.model.person.GithubUsername;
 import cms.model.person.Name;
+import cms.model.person.NusId;
 import cms.model.person.Person;
 import cms.model.person.Phone;
-import cms.model.tag.Tag;
 import cms.model.person.Role;
-import cms.model.person.NusId;
 import cms.model.person.SocUsername;
-import cms.model.person.GithubUsername;
 import cms.model.person.TutorialGroup;
+import cms.model.tag.Tag;
 
 /**
  * Jackson-friendly version of {@link Person}.
@@ -44,11 +44,16 @@ class JsonAdaptedPerson {
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
     @JsonCreator
-    public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("email") String email, @JsonProperty("nusId") String nusId,
-            @JsonProperty("socUsername") String socUsername, @JsonProperty("githubUsername") String githubUsername,
-            @JsonProperty("address") String address, @JsonProperty("role") String role,
-            @JsonProperty("tutorialGroup") String tutorialGroup, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+    public JsonAdaptedPerson(@JsonProperty("name") String name,
+                             @JsonProperty("phone") String phone,
+                             @JsonProperty("email") String email,
+                             @JsonProperty("nusId") String nusId,
+                             @JsonProperty("socUsername") String socUsername,
+                             @JsonProperty("githubUsername") String githubUsername,
+                             @JsonProperty("address") String address,
+                             @JsonProperty("role") String role,
+                             @JsonProperty("tutorialGroup") String tutorialGroup,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -132,7 +137,8 @@ class JsonAdaptedPerson {
         final NusId modelNusId = new NusId(nusId);
 
         if (socUsername == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, SocUsername.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    SocUsername.class.getSimpleName()));
         }
         if (!SocUsername.isValidSocUsername(socUsername)) {
             throw new IllegalValueException(SocUsername.MESSAGE_CONSTRAINTS);
@@ -140,7 +146,8 @@ class JsonAdaptedPerson {
         final SocUsername modelSocUsername = new SocUsername(socUsername);
 
         if (githubUsername == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, GithubUsername.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    GithubUsername.class.getSimpleName()));
         }
         if (!GithubUsername.isValidGithubUsername(githubUsername)) {
             throw new IllegalValueException(GithubUsername.MESSAGE_CONSTRAINTS);
@@ -158,7 +165,8 @@ class JsonAdaptedPerson {
         final Role modelRole = Role.valueOf(role.toUpperCase());
 
         if (tutorialGroup == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, TutorialGroup.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    TutorialGroup.class.getSimpleName()));
         }
         if (!TutorialGroup.isValidTutorialGroup(tutorialGroup)) {
             throw new IllegalValueException(TutorialGroup.MESSAGE_CONSTRAINTS);
@@ -166,7 +174,9 @@ class JsonAdaptedPerson {
         final TutorialGroup modelTutorialGroup = new TutorialGroup(tutorialGroup);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelNusId, modelSocUsername, modelGithubUsername, modelAddress, modelRole, modelTutorialGroup, modelTags);
+        return new Person(modelName, modelPhone, modelEmail, modelNusId,
+                modelSocUsername, modelGithubUsername, modelAddress,
+                modelRole, modelTutorialGroup, modelTags);
     }
 
 }

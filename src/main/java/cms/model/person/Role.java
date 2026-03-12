@@ -12,7 +12,7 @@ public enum Role {
     TUTOR("tutor");
 
     public static final String MESSAGE_CONSTRAINTS =
-        "Roles should be either 'student' or 'tutor'";
+            "Roles should be either 'student' or 'tutor'";
     public final String value;
 
     Role(String role) {
