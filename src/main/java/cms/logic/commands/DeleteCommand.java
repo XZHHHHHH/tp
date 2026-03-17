@@ -29,10 +29,16 @@ public class DeleteCommand extends Command {
 
     private final List<Index> targetIndexes;
 
+    /**
+     * Creates a {@code DeleteCommand} to delete a single person.
+     */
     public DeleteCommand(Index targetIndex) {
         this(List.of(targetIndex));
     }
 
+    /**
+     * Creates a {@code DeleteCommand} to delete one or more persons.
+     */
     public DeleteCommand(List<Index> targetIndexes) {
         requireNonNull(targetIndexes);
         this.targetIndexes = List.copyOf(targetIndexes);
@@ -68,7 +74,8 @@ public class DeleteCommand extends Command {
         }
 
         if (targetIndexes.size() == 1) {
-            return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(singlePersonToDelete)));
+            return new CommandResult(
+                    String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(singlePersonToDelete)));
         }
 
         return new CommandResult(MESSAGE_DELETE_PERSONS_SUCCESS);
@@ -91,6 +98,12 @@ public class DeleteCommand extends Command {
 
     @Override
     public String toString() {
+        if (targetIndexes.size() == 1) {
+            return new ToStringBuilder(this)
+                    .add("targetIndex", targetIndexes.get(0))
+                    .toString();
+        }
+
         return new ToStringBuilder(this)
                 .add("targetIndexes", targetIndexes)
                 .toString();
