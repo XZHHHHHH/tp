@@ -19,6 +19,7 @@ import cms.model.Model;
 import cms.model.ModelManager;
 import cms.model.UserPrefs;
 import cms.model.person.NameContainsKeywordsPredicate;
+import cms.model.person.NusIdContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -72,6 +73,40 @@ public class FindCommandTest {
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_findByNusId_singleId_found() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
+        // Use ELLE's NUS ID from TypicalPersons: A0234504F
+        NusIdContainsKeywordsPredicate predicate =
+                new NusIdContainsKeywordsPredicate(Collections.singletonList("A0234504F"));
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Collections.singletonList(ELLE), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_findByNusId_multipleIds_found() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 2);
+        NusIdContainsKeywordsPredicate predicate =
+                new NusIdContainsKeywordsPredicate(Arrays.asList("A0234502D", "A0234505G")); // CARL and FIONA
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(CARL, FIONA), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_findByNusId_noMatches_zeroResults() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
+        NusIdContainsKeywordsPredicate predicate =
+                new NusIdContainsKeywordsPredicate(Collections.singletonList("A9999999Z"));
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
     }
 
     @Test
