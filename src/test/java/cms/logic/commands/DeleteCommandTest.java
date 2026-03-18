@@ -9,6 +9,7 @@ import static cms.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static cms.testutil.TypicalPersons.getTypicalAddressBook;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -74,6 +75,11 @@ public class DeleteCommandTest {
         expectedModel.deletePerson(personToDelete);
 
         assertCommandSuccess(deleteCommand, model, DeleteCommand.MESSAGE_DELETE_PERSONS_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void constructor_emptyIndexes_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new DeleteCommand(List.of()));
     }
 
     @Test

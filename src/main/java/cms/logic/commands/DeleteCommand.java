@@ -1,5 +1,6 @@
 package cms.logic.commands;
 
+import static cms.commons.util.AppUtil.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import cms.model.person.Person;
 public class DeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
+    public static final String MESSAGE_EMPTY_INDEX_LIST = "At least one person index must be provided.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes one or more persons identified by the index numbers used in the displayed person list.\n"
@@ -41,6 +43,7 @@ public class DeleteCommand extends Command {
      */
     public DeleteCommand(List<Index> targetIndexes) {
         requireNonNull(targetIndexes);
+        checkArgument(!targetIndexes.isEmpty(), MESSAGE_EMPTY_INDEX_LIST);
         this.targetIndexes = List.copyOf(targetIndexes);
     }
 
