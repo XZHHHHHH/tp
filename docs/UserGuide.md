@@ -40,7 +40,7 @@ Action | Format
 **List** | `list`
 **Add** | `add n/NAME id/NUS_ID role/ROLE soc/SOC_USERNAME gh/GITHUB_USERNAME e/EMAIL p/PHONE t/TUTORIAL_GROUP [tag/TAG]...`
 **Edit** | `edit INDEX [n/NAME] [id/NUS_ID] [role/ROLE] [soc/SOC_USERNAME] [gh/GITHUB_USERNAME] [e/EMAIL] [p/PHONE] [t/TUTORIAL_GROUP] [tag/TAG]...`
-**Find** | `find n/KEYWORD [MORE_NAME_KEYWORDS]...` / `find id/NUS_ID [MORE_NUS_IDS]...`
+**Find** | `find a/KEYWORD [MORE_KEYWORDS]...` / `find n/KEYWORD [MORE_NAME_KEYWORDS]...` / `find id/NUS_ID [MORE_NUS_IDS]...` / mixed prefixes
 **Delete** | `delete INDEX` / `delete INDEX [MORE_INDEXES]...` / `delete id/NUS_ID`
 **Purge all records** | `clear`
 **Exit** | `exit`
@@ -117,20 +117,27 @@ Examples:
 Finds persons whose names or NUS IDs contain any of the given keywords.
 
 Format:
+* `find a/KEYWORD [MORE_KEYWORDS]...`
 * `find n/KEYWORD [MORE_NAME_KEYWORDS]...`
 * `find id/NUS_ID [MORE_NUS_IDS]...`
+* `find n/KEYWORD [MORE_NAME_KEYWORDS]... id/NUS_ID [MORE_NUS_IDS]...`
 
-* Prefix is required (`n/` for name search, `id/` for NUS ID search).
+* Prefix is required (`a/`, `n/`, `id/`).
 * Search is case-insensitive for names. e.g. `n/hans` will match `Hans`.
 * Order of keywords does not matter for name search. e.g. `find n/Hans n/Bo` will match `find n/Bo n/Hans`.
 * Full words are matched for names. e.g. `find n/Han` will not match `Hans`.
-* A person matching at least one keyword is returned (OR search) for name search.
+* `id/` matching is case-insensitive. e.g. `id/a0123456b` matches `A0123456B`.
+* Mixed prefixes are allowed in one command, and results are returned by union (OR across prefixes).
 
 Examples:
+* `find a/python`
 * `find n/jane n/eunice`
+* `find n/jane n/eunice id/A0123456B id/A1234567C`
+* `find id/A0123456B id/A1234567C`
+
+Invalid (missing required prefix):
 * `find n/jane eunice`
 * `find id/A0123456B A1234567C`
-* `find id/A0123456B id/A1234567C`
 
 ### Deleting a student / tutor : `delete`
 
