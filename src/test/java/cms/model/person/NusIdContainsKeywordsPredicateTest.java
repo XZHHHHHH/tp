@@ -110,7 +110,7 @@ public class NusIdContainsKeywordsPredicateTest {
     }
 
     @Test
-    public void test_keywordsFieldNull_returnsFalse_usingReflection() throws Exception {
+    public void test_keywordsFieldNull_returnsFalse() throws Exception {
         // create a predicate with non-empty keywords
         NusIdContainsKeywordsPredicate predicate =
                 new NusIdContainsKeywordsPredicate(Collections.singletonList("A0123456B"));

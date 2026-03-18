@@ -104,7 +104,7 @@ public class NameOrNusIdContainsKeywordsPredicateTest {
     }
 
     @Test
-    public void test_personWithNullNusId_idKeywords_returnsFalse() {
+    public void test_personWithNullNusId_returnsFalse() {
         NameOrNusIdContainsKeywordsPredicate predicate = new NameOrNusIdContainsKeywordsPredicate(
                 Collections.emptyList(), Collections.singletonList("A0123456B"));
 
