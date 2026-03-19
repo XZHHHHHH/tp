@@ -21,8 +21,8 @@ Course Management System (CMS) is a desktop application designed for NUS course 
 
 1. Copy the downloaded jar into that folder.
 
-1. Open a terminal, `cd` into that folder, and run `java -jar cms.jar`.  
-   A GUI similar to the below should appear in a few seconds. Note how the app contains sample data.  
+1. Open a terminal, `cd` into that folder, and run `java -jar cms.jar`.
+   A GUI similar to the below should appear in a few seconds. Note how the app contains sample data.
    ![Ui](images/Ui.png)
 
 1. Type the command in the command box and press Enter to execute it.
@@ -82,7 +82,7 @@ Format: `list`
 
 ### Adding a student / tutor : `add`
 
-Adds a student or tutor record to CMS. 
+Adds a student or tutor record to CMS.
 
 All required fields must be valid (See [Fields and accepted formats](#fields-and-accepted-formats)).
 
@@ -280,14 +280,14 @@ Use this section as a quick checklist for `add` and `edit`.
 
 ## FAQ
 
-**Q**: How do I transfer my data to another computer?  
+**Q**: How do I transfer my data to another computer?
 **A**: Install CMS on the other computer, launch once, then replace the new `data/CMS.json` with your old one.
 
-**Q**: Where are my preferences saved?  
+**Q**: Where are my preferences saved?
 **A**: Preferences are saved in `preferences.json` in your CMS working directory.
 
-**Q**: Can I undo `delete` or `clear`?  
+**Q**: Can I undo `delete` or `clear`?
 **A**: No. There is currently no undo feature, so keep backups of `data/CMS.json` if needed.
 
-**Q**: Why is my `find` command not returning results?  
+**Q**: Why is my `find` command not returning results?
 **A**: Check your prefixes and input format (`a/`, `n/`, `id/`), and verify that full-word matching rules are met for name searches.
