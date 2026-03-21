@@ -54,8 +54,7 @@ public class AddCommandTest {
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
         String expectedMessage = DuplicatePersonException.buildMessage(validPerson);
-        assertThrows(CommandException.class, expectedMessage,
-                () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -67,8 +66,8 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(editedPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
-        String expectedMessage = DuplicatePersonFieldException
-                .buildMessage(new FieldConflict(FieldConflict.Type.EMAIL, validPerson));
+        String expectedMessage = DuplicatePersonFieldException.buildMessage(
+            new FieldConflict(FieldConflict.Type.EMAIL, validPerson));
         assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 

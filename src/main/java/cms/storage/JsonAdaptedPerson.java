@@ -75,7 +75,7 @@ class JsonAdaptedPerson {
         socUsername = source.getSocUsername().value;
         githubUsername = source.getGithubUsername().value;
         role = source.getRole().value;
-        tutorialGroup = source.getTutorialGroup().value;
+        tutorialGroup = String.valueOf(source.getTutorialGroup().value);
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));

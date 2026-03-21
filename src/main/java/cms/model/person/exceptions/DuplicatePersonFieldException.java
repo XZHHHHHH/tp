@@ -11,7 +11,15 @@ import cms.model.person.FieldConflict;
 public class DuplicatePersonFieldException extends RuntimeException {
 
     private static final String DETAILED_MESSAGE_TEMPLATE =
-            "A person with %s [%s] already exists in the system. Conflicting person: %s (%s).";
+            "A person with %s [%s] already exists in the system. \nConflicting person: %s (%s).";
+
+    /**
+     * Constructs a DuplicatePersonFieldException for the given field conflict.
+     * @param conflict the field conflict causing the exception
+     */
+    public DuplicatePersonFieldException(FieldConflict conflict) {
+        super(buildMessage(conflict));
+    }
 
     /**
      * Builds the duplicate field message for the specified field conflict.
@@ -21,13 +29,5 @@ public class DuplicatePersonFieldException extends RuntimeException {
         return String.format(DETAILED_MESSAGE_TEMPLATE,
                 conflict.getFieldName(), conflict.getFieldValue(),
                 conflict.getConflictingPerson().getName(), conflict.getConflictingPerson().getNusId());
-    }
-
-    /**
-     * Constructs a DuplicatePersonFieldException for the given field conflict.
-     * @param conflict the field conflict causing the exception
-     */
-    public DuplicatePersonFieldException(FieldConflict conflict) {
-        super(buildMessage(conflict));
     }
 }

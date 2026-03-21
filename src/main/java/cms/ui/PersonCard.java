@@ -65,7 +65,7 @@ public class PersonCard extends UiPart<Region> {
         socUsername.setText(person.getSocUsername().value);
         githubUsername.setText(person.getGithubUsername().value);
         role.setText(person.getRole().value);
-        tutorialGroup.setText(person.getTutorialGroup().value);
+        tutorialGroup.setText(String.valueOf(person.getTutorialGroup().value));
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

@@ -10,10 +10,9 @@ import org.junit.jupiter.api.Test;
 
 public class TutorialGroupTest {
     @Test
-    public void canonicalisation_trimsAndUppercases() {
-        // trims and uppercases
-        TutorialGroup t = new TutorialGroup("  t01  ");
-        assertEquals("T01", t.value);
+    public void canonicalisation_trimsSpaces() {
+        TutorialGroup t = new TutorialGroup("  12  ");
+        assertEquals(12, t.value);
     }
 
     @Test
@@ -22,31 +21,31 @@ public class TutorialGroupTest {
         assertThrows(NullPointerException.class, () -> TutorialGroup.isValidTutorialGroup(null));
 
         // invalid canonical forms
-        assertFalse(TutorialGroup.isValidTutorialGroup("T1")); // too short
-        assertFalse(TutorialGroup.isValidTutorialGroup("T123")); // too long
-        assertFalse(TutorialGroup.isValidTutorialGroup("TAA")); // not digits
-        assertFalse(TutorialGroup.isValidTutorialGroup("01T")); // wrong order
+        assertFalse(TutorialGroup.isValidTutorialGroup("0")); // lower bound
+        assertFalse(TutorialGroup.isValidTutorialGroup("100")); // upper bound
+        assertFalse(TutorialGroup.isValidTutorialGroup("01")); // leading zero
+        assertFalse(TutorialGroup.isValidTutorialGroup("AA")); // non-numeric
 
         // valid canonical forms
-        assertTrue(TutorialGroup.isValidTutorialGroup("T01"));
-        assertTrue(TutorialGroup.isValidTutorialGroup("T12"));
+        assertTrue(TutorialGroup.isValidTutorialGroup("1"));
+        assertTrue(TutorialGroup.isValidTutorialGroup("99"));
     }
 
     @Test
     public void constructor_acceptsValidInputs() {
         // valid tutorial groups
-        assertDoesNotThrow(() -> new TutorialGroup("T01"));
-        assertDoesNotThrow(() -> new TutorialGroup("t12")); // auto-uppercase
-        assertDoesNotThrow(() -> new TutorialGroup("t01 ")); // trims trailing spaces
+        assertDoesNotThrow(() -> new TutorialGroup("1"));
+        assertDoesNotThrow(() -> new TutorialGroup("99"));
+        assertDoesNotThrow(() -> new TutorialGroup(" 7 ")); // trims spaces
     }
 
     @Test
     public void constructor_rejectsInvalidInputs() {
         // invalid tutorial groups
-        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("T1"));
-        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("T123"));
-        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("TAA"));
-        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("T 1"));
-        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("01T"));
+        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("0"));
+        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("100"));
+        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("AA"));
+        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("1 2"));
+        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("01"));
     }
 }

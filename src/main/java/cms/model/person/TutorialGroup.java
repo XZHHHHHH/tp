@@ -10,9 +10,9 @@ import static java.util.Objects.requireNonNull;
 public class TutorialGroup {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Tutorial group should be in the format of 'Txx' where xx is a number between 01 and 99.";
-    public static final String VALIDATION_REGEX = "T(0[1-9]|[1-9][0-9])";
-    public final String value;
+            "Tutorial group should be a number between 1 and 99.";
+    public static final String VALIDATION_REGEX = "[1-9][0-9]?";
+    public final int value;
 
     /**
      * Constructs a {@code TutorialGroup}.
@@ -23,7 +23,7 @@ public class TutorialGroup {
         requireNonNull(tutorialGroup);
         String canonical = canonicalise(tutorialGroup);
         checkArgument(isValidTutorialGroup(canonical), MESSAGE_CONSTRAINTS);
-        value = canonical;
+        value = Integer.parseInt(canonical);
     }
 
     /**
@@ -33,7 +33,7 @@ public class TutorialGroup {
         if (input == null) {
             return null;
         }
-        return input.trim().toUpperCase();
+        return input.trim();
     }
 
     /**
@@ -45,7 +45,7 @@ public class TutorialGroup {
 
     @Override
     public String toString() {
-        return value;
+        return String.valueOf(value);
     }
 
     @Override
@@ -60,12 +60,11 @@ public class TutorialGroup {
         }
 
         TutorialGroup otherTutorialGroup = (TutorialGroup) other;
-        return value.equals(otherTutorialGroup.value);
+        return value == otherTutorialGroup.value;
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Integer.hashCode(value);
     }
 }
-

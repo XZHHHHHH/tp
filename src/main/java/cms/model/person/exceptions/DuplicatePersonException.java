@@ -10,10 +10,17 @@ import cms.model.person.Person;
  */
 public class DuplicatePersonException extends RuntimeException {
     private static final String DETAILED_MESSAGE_TEMPLATE =
-            "A person with NUS ID [%s] already exists in the system. Conflicting person: %s (%s).";
+            "A person with NUS ID [%s] already exists in the system. \nConflicting person: %s (%s).";
 
     public DuplicatePersonException() {
         super("Operation would result in duplicate persons");
+    }
+
+    /**
+     * Constructs a DuplicatePersonException with details of the duplicate person.
+     */
+    public DuplicatePersonException(Person conflictingPerson) {
+        super(buildMessage(conflictingPerson));
     }
 
     /**
@@ -25,12 +32,5 @@ public class DuplicatePersonException extends RuntimeException {
                 conflictingPerson.getNusId(),
                 conflictingPerson.getName(),
                 conflictingPerson.getNusId());
-    }
-
-    /**
-     * Constructs a DuplicatePersonException with details of the duplicate person.
-     */
-    public DuplicatePersonException(Person conflictingPerson) {
-        super(buildMessage(conflictingPerson));
     }
 }
