@@ -23,17 +23,19 @@ public class NameTest {
         // invalid name
         assertFalse(Name.isValidName("")); // empty string
         assertFalse(Name.isValidName(" ")); // spaces only
-        assertFalse(Name.isValidName("^")); // only non-alphanumeric characters
-        assertFalse(Name.isValidName("peter*")); // contains non-alphanumeric characters
-        assertFalse(Name.isValidName("O'Brien")); // apostrophe not allowed
-        assertFalse(Name.isValidName("Jane-Lim")); // hyphen not allowed
-        assertFalse(Name.isValidName("Dr. Tan")); // period not allowed
+        assertFalse(Name.isValidName("---")); // no alphabetic character
+        assertFalse(Name.isValidName("peter*")); // contains unsupported characters
+        assertFalse(Name.isValidName("John2 Doe")); // numbers are not allowed
+        assertFalse(Name.isValidName("Ravi s/o Kumar")); // slash is not allowed
+        assertFalse(Name.isValidName("a".repeat(Name.MAX_LENGTH + 1))); // too long
 
         // valid name
-        assertTrue(Name.isValidName("peter jack")); // alphabets only
-        assertTrue(Name.isValidName("12345")); // numbers only
-        assertTrue(Name.isValidName("peter the 2nd")); // alphanumeric characters
+        assertTrue(Name.isValidName("peter jack")); // alphabetic and spaces
+        assertTrue(Name.isValidName("O'Brien")); // apostrophe
+        assertTrue(Name.isValidName("Jane-Lim")); // hyphen
+        assertTrue(Name.isValidName("Dr. Tan")); // period
         assertTrue(Name.isValidName("Capital Tan")); // with capital letters
+        assertTrue(Name.isValidName("a".repeat(Name.MAX_LENGTH))); // length boundary
         assertTrue(Name.isValidName("David Roger Jackson Ray Junior")); // long names
     }
 
@@ -61,7 +63,7 @@ public class NameTest {
     public void constructor_acceptsValidInputs() {
         // valid names
         assertDoesNotThrow(() -> new Name("John Doe"));
-        assertDoesNotThrow(() -> new Name("John2 Doe"));
+        assertDoesNotThrow(() -> new Name("John D."));
         assertDoesNotThrow(() -> new Name(" John   Doe ")); // should collapse spaces
     }
 
@@ -69,11 +71,13 @@ public class NameTest {
     public void constructor_rejectsInvalidInputs() {
         // invalid names
         assertThrows(IllegalArgumentException.class, () -> new Name(""));
-        assertThrows(IllegalArgumentException.class, () -> new Name("O'Brien"));
-        assertThrows(IllegalArgumentException.class, () -> new Name("Jane-Lim"));
-        assertThrows(IllegalArgumentException.class, () -> new Name("Dr. Tan"));
+        assertThrows(IllegalArgumentException.class, () -> new Name("---"));
+        assertThrows(IllegalArgumentException.class, () -> new Name("/"));
+        assertThrows(IllegalArgumentException.class, () -> new Name("Ravi s/o Kumar"));
+        assertThrows(IllegalArgumentException.class, () -> new Name("John2 Doe"));
         assertThrows(IllegalArgumentException.class, () -> new Name("John@Doe"));
         assertThrows(IllegalArgumentException.class, () -> new Name("John$Doe"));
+        assertThrows(IllegalArgumentException.class, () -> new Name("a".repeat(Name.MAX_LENGTH + 1)));
         assertThrows(IllegalArgumentException.class, () -> new Name(" ")); // blank
     }
 

@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 public class TutorialGroupTest {
     @Test
-    public void canonicalisation_trimsSpaces() {
-        TutorialGroup t = new TutorialGroup("  12  ");
+    public void canonicalisation_trimsSpacesAndLeadingZeros() {
+        TutorialGroup t = new TutorialGroup("  0012  ");
         assertEquals(12, t.value);
     }
 
@@ -23,12 +23,15 @@ public class TutorialGroupTest {
         // invalid canonical forms
         assertFalse(TutorialGroup.isValidTutorialGroup("0")); // lower bound
         assertFalse(TutorialGroup.isValidTutorialGroup("100")); // upper bound
-        assertFalse(TutorialGroup.isValidTutorialGroup("01")); // leading zero
+        assertFalse(TutorialGroup.isValidTutorialGroup("00100")); // upper bound with leading zeros
+        assertFalse(TutorialGroup.isValidTutorialGroup("000")); // lower bound with leading zeros
         assertFalse(TutorialGroup.isValidTutorialGroup("AA")); // non-numeric
 
         // valid canonical forms
         assertTrue(TutorialGroup.isValidTutorialGroup("1"));
         assertTrue(TutorialGroup.isValidTutorialGroup("99"));
+        assertTrue(TutorialGroup.isValidTutorialGroup("01"));
+        assertTrue(TutorialGroup.isValidTutorialGroup("00099"));
     }
 
     @Test
@@ -36,6 +39,7 @@ public class TutorialGroupTest {
         // valid tutorial groups
         assertDoesNotThrow(() -> new TutorialGroup("1"));
         assertDoesNotThrow(() -> new TutorialGroup("99"));
+        assertDoesNotThrow(() -> new TutorialGroup("0007"));
         assertDoesNotThrow(() -> new TutorialGroup(" 7 ")); // trims spaces
     }
 
@@ -44,8 +48,9 @@ public class TutorialGroupTest {
         // invalid tutorial groups
         assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("0"));
         assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("100"));
+        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("000"));
+        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("00100"));
         assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("AA"));
         assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("1 2"));
-        assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("01"));
     }
 }

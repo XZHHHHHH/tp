@@ -10,8 +10,8 @@ import static java.util.Objects.requireNonNull;
 public class TutorialGroup {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Tutorial group should be a number between 1 and 99.";
-    public static final String VALIDATION_REGEX = "[1-9][0-9]?";
+        "Tutorial group should be a number between 1 and 99 (leading zeros are allowed).";
+    public static final String VALIDATION_REGEX = "0*[1-9][0-9]?";
     public final int value;
 
     /**
@@ -27,13 +27,14 @@ public class TutorialGroup {
     }
 
     /**
-     * Canonicalises the tutorial group: trims spaces and converts to uppercase.
+     * Canonicalises the tutorial group by trimming spaces and removing leading zeros.
      */
     public static String canonicalise(String input) {
         if (input == null) {
             return null;
         }
-        return input.trim();
+        String trimmed = input.trim();
+        return trimmed.replaceFirst("^0+(?!$)", "");
     }
 
     /**

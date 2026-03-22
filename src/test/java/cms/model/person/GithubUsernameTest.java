@@ -11,7 +11,6 @@ public class GithubUsernameTest {
         // valid github usernames
         assertDoesNotThrow(() -> new GithubUsername("johndoe"));
         assertDoesNotThrow(() -> new GithubUsername("john-doe"));
-        assertDoesNotThrow(() -> new GithubUsername("john--doe"));
         assertDoesNotThrow(() -> new GithubUsername("a123"));
         // 39 chars
         assertDoesNotThrow(() -> new GithubUsername(
@@ -23,8 +22,10 @@ public class GithubUsernameTest {
         // invalid github usernames
         assertThrows(IllegalArgumentException.class, () -> new GithubUsername("-johndoe"));
         assertThrows(IllegalArgumentException.class, () -> new GithubUsername("johndoe-"));
+        assertThrows(IllegalArgumentException.class, () -> new GithubUsername("john--doe"));
         assertThrows(IllegalArgumentException.class, () -> new GithubUsername("john doe"));
         assertThrows(IllegalArgumentException.class, () -> new GithubUsername("john@doe"));
+        assertThrows(IllegalArgumentException.class, () -> new GithubUsername("john/doe"));
         assertThrows(IllegalArgumentException.class, () -> new GithubUsername(""));
         // 40 chars
         assertThrows(IllegalArgumentException.class, () -> new GithubUsername(

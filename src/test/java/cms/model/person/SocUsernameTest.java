@@ -56,5 +56,6 @@ public class SocUsernameTest {
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("tanmow-")); // cannot end with hyphen
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("tan mow")); // cannot contain spaces
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("tan@kow")); // special char invalid
+        assertThrows(IllegalArgumentException.class, () -> new SocUsername("tan/kow")); // special char invalid
     }
 }
