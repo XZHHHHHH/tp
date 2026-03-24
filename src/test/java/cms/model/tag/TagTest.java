@@ -62,4 +62,9 @@ public class TagTest {
         assertThrows(IllegalArgumentException.class, () -> new Tag("")); // empty tag not allowed
     }
 
+    @Test
+    public void canonicalise_null_returnsNull() {
+        assertEquals(null, Tag.canonicalise(null));
+    }
+
 }

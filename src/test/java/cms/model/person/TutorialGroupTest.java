@@ -53,4 +53,9 @@ public class TutorialGroupTest {
         assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("AA"));
         assertThrows(IllegalArgumentException.class, () -> new TutorialGroup("1 2"));
     }
+
+    @Test
+    public void canonicalise_null_returnsNull() {
+        assertEquals(null, TutorialGroup.canonicalise(null));
+    }
 }

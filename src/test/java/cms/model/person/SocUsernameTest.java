@@ -58,4 +58,9 @@ public class SocUsernameTest {
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("tan@kow")); // special char invalid
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("tan/kow")); // special char invalid
     }
+
+    @Test
+    public void canonicalise_null_returnsNull() {
+        assertEquals(null, SocUsername.canonicalise(null));
+    }
 }

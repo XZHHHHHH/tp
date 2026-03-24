@@ -106,4 +106,9 @@ public class EmailTest {
         assertThrows(IllegalArgumentException.class, () -> new Email("johndoe@u.nus.edu$")); // special char
         assertThrows(IllegalArgumentException.class, () -> new Email("")); // empty
     }
+
+    @Test
+    public void canonicalise_null_returnsNull() {
+        assertEquals(null, Email.canonicalise(null));
+    }
 }

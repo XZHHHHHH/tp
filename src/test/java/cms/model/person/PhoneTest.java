@@ -79,4 +79,9 @@ public class PhoneTest {
         assertThrows(IllegalArgumentException.class, () -> new Phone("9123456a")); // letter
         assertThrows(IllegalArgumentException.class, () -> new Phone("")); // empty
     }
+
+    @Test
+    public void canonicalise_null_returnsNull() {
+        assertEquals(null, Phone.canonicalise(null));
+    }
 }
