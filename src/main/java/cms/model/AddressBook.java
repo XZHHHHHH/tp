@@ -111,6 +111,13 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+    /**
+     * Sorts the backing person list by tutorial group in ascending order.
+     */
+    public void sortPersonsByTutorialGroup() {
+        persons.sortByTutorialGroup();
+    }
+
     /// / util methods
 
     @Override

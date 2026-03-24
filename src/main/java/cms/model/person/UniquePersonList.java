@@ -11,6 +11,7 @@ import cms.model.person.exceptions.DuplicatePersonFieldException;
 import cms.model.person.exceptions.PersonNotFoundException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.util.Comparator;
 
 /**
  * A list of persons that enforces uniqueness between its elements and does not
@@ -61,6 +62,8 @@ public class UniquePersonList implements Iterable<Person> {
         }
         ensureNoFieldConflict(toAdd, null);
         internalList.add(toAdd);
+        // keep list sorted by tutorial group after adding
+        sortByTutorialGroup();
     }
 
     /**
@@ -83,6 +86,8 @@ public class UniquePersonList implements Iterable<Person> {
 
         ensureNoFieldConflict(editedPerson, target);
         internalList.set(index, editedPerson);
+        // keep list sorted by tutorial group after editing
+        sortByTutorialGroup();
     }
 
     /**
@@ -99,6 +104,8 @@ public class UniquePersonList implements Iterable<Person> {
     public void setPersons(UniquePersonList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
+        // maintain sorted order after replacing
+        sortByTutorialGroup();
     }
 
     /**
@@ -110,6 +117,34 @@ public class UniquePersonList implements Iterable<Person> {
         ensurePersonsAreUnique(persons);
 
         internalList.setAll(persons);
+        // maintain sorted order after replacing
+        sortByTutorialGroup();
+    }
+
+    /**
+     * Sorts the internal list by tutorial group number in ascending order.
+     * TutorialGroup values are in the format "Txx" where xx is 01..99.
+     */
+    public void sortByTutorialGroup() {
+        Comparator<Person> comparator = (p1, p2) -> {
+            try {
+                int t1 = Integer.parseInt(p1.getTutorialGroup().value.substring(1));
+                int t2 = Integer.parseInt(p2.getTutorialGroup().value.substring(1));
+                return Integer.compare(t1, t2);
+            } catch (Exception e) {
+                // fallback to string compare if parsing fails
+                return p1.getTutorialGroup().value.compareTo(p2.getTutorialGroup().value);
+            }
+        };
+
+        FXCollections.sort(internalList, comparator);
+    }
+
+    /**
+     * Public alias to allow callers outside this class to request sorting.
+     */
+    public void sort() {
+        sortByTutorialGroup();
     }
 
     /**

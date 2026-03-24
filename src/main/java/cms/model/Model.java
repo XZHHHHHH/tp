@@ -100,4 +100,13 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Sorts the underlying person list by tutorial group in ascending order.
+     * Default implementation is a no-op to avoid forcing all test stubs to
+     * implement this method.
+     */
+    default void sortPersonsByTutorialGroup() {
+        // no-op default implementation
+    }
 }
