@@ -58,6 +58,8 @@ public class MaskingUtilTest {
 
         Method maskEmailValue = MaskingUtil.class.getDeclaredMethod("maskEmailValue", String.class);
         maskEmailValue.setAccessible(true);
+        assertEquals("", (String) maskEmailValue.invoke(null, ""));
+        assertEquals("********", (String) maskEmailValue.invoke(null, "abc"));
         assertEquals("********", (String) maskEmailValue.invoke(null, "abc@"));
     }
 }
