@@ -219,7 +219,8 @@ public class LogicManagerTest {
                 .withTutorialGroup("T02")
                 .build());
 
-        String importCommand = ImportCommand.COMMAND_WORD + " \"" + importPath + "\"";
+        Path normalizedImportPath = importPath.toAbsolutePath().normalize();
+        String importCommand = ImportCommand.COMMAND_WORD + " \"" + normalizedImportPath + "\"";
         assertCommandFailure(importCommand, CommandException.class, LogicManager.IMPORT_KEEP_REQUIRED_NON_EMPTY);
         assertEquals(1, model.getFilteredPersonList().size());
         assertEquals(expectedCurrentPerson, model.getFilteredPersonList().get(0));
@@ -242,11 +243,13 @@ public class LogicManagerTest {
                 .withTutorialGroup("T02")
                 .build();
         Path importPath = createImportFileWithSinglePerson(incomingPerson);
+        Path normalizedImportPath = importPath.toAbsolutePath().normalize();
 
-        String importCommand = ImportCommand.COMMAND_WORD + " \"" + importPath + "\" keep/current";
+        String importCommand = ImportCommand.COMMAND_WORD + " \"" + normalizedImportPath + "\" keep/current";
         CommandResult result = logic.execute(importCommand);
 
-        assertEquals(String.format(ImportCommand.MESSAGE_KEEP_CURRENT_SUCCESS, importPath), result.getFeedbackToUser());
+        assertEquals(String.format(ImportCommand.MESSAGE_KEEP_CURRENT_SUCCESS, normalizedImportPath),
+            result.getFeedbackToUser());
         assertEquals(1, model.getFilteredPersonList().size());
         assertEquals(expectedCurrentPerson, model.getFilteredPersonList().get(0));
     }
@@ -267,11 +270,12 @@ public class LogicManagerTest {
                 .withTutorialGroup("T02")
                 .build();
         Path importPath = createImportFileWithSinglePerson(incomingPerson);
+        Path normalizedImportPath = importPath.toAbsolutePath().normalize();
 
-        String importCommand = ImportCommand.COMMAND_WORD + " \"" + importPath + "\" keep/incoming";
+        String importCommand = ImportCommand.COMMAND_WORD + " \"" + normalizedImportPath + "\" keep/incoming";
         CommandResult result = logic.execute(importCommand);
 
-        assertEquals(String.format(ImportCommand.MESSAGE_SUCCESS, importPath), result.getFeedbackToUser());
+        assertEquals(String.format(ImportCommand.MESSAGE_SUCCESS, normalizedImportPath), result.getFeedbackToUser());
         assertEquals(1, model.getFilteredPersonList().size());
         assertEquals(incomingPerson, model.getFilteredPersonList().get(0));
     }
