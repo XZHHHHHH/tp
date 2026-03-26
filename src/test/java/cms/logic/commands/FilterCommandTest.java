@@ -41,6 +41,8 @@ public class FilterCommandTest {
         FilterCommand filterFirstCommand = new FilterCommand(firstPredicate);
         FilterCommand filterSecondCommand = new FilterCommand(secondPredicate);
 
+        assertEquals(filterFirstCommand, filterFirstCommand);
+
         FilterCommand filterFirstCommandCopy = new FilterCommand(firstPredicate);
         assertEquals(filterFirstCommand, filterFirstCommandCopy);
         assertNotEquals(new Object(), filterFirstCommand);
