@@ -28,6 +28,7 @@ public class Person {
     // Data fields
     private final Role role;
     private final TutorialGroup tutorialGroup;
+    private final Remark remark;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -35,8 +36,8 @@ public class Person {
      */
     public Person(Name name, Phone phone, Email email, NusId nusId, SocUsername socUsername,
             GithubUsername githubUsername, Role role,
-            TutorialGroup tutorialGroup, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, nusId, socUsername, githubUsername, role, tutorialGroup, tags);
+            TutorialGroup tutorialGroup, Remark remark, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, nusId, socUsername, githubUsername, role, tutorialGroup, remark, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -45,6 +46,7 @@ public class Person {
         this.githubUsername = githubUsername;
         this.role = role;
         this.tutorialGroup = tutorialGroup;
+        this.remark = remark;
         this.tags.addAll(tags);
     }
 
@@ -78,6 +80,10 @@ public class Person {
 
     public TutorialGroup getTutorialGroup() {
         return tutorialGroup;
+    }
+
+    public Remark getRemark() {
+        return remark;
     }
 
     /**
@@ -149,13 +155,14 @@ public class Person {
                 && githubUsername.equals(otherPerson.githubUsername)
                 && role.equals(otherPerson.role)
                 && tutorialGroup.equals(otherPerson.tutorialGroup)
+                && remark.equals(otherPerson.remark)
                 && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, nusId, socUsername, githubUsername, role, tutorialGroup, tags);
+        return Objects.hash(name, phone, email, nusId, socUsername, githubUsername, role, tutorialGroup, remark, tags);
     }
 
     @Override
@@ -169,6 +176,7 @@ public class Person {
                 .add("githubUsername", githubUsername)
                 .add("role", role)
                 .add("tutorialGroup", tutorialGroup)
+                .add("remark", remark)
                 .add("tags", tags)
                 .toString();
     }

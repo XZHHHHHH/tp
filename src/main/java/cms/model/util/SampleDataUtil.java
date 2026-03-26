@@ -12,6 +12,7 @@ import cms.model.person.Name;
 import cms.model.person.NusId;
 import cms.model.person.Person;
 import cms.model.person.Phone;
+import cms.model.person.Remark;
 import cms.model.person.Role;
 import cms.model.person.SocUsername;
 import cms.model.person.TutorialGroup;
@@ -31,6 +32,7 @@ public class SampleDataUtil {
                        new GithubUsername("alexyeoh"),
                        Role.STUDENT,
                        new TutorialGroup("01"),
+                       new Remark(""),
                        getTagSet("friends")),
             new Person(new Name("Bernice Yu"),
                        new Phone("99272758"),
@@ -40,6 +42,7 @@ public class SampleDataUtil {
                        new GithubUsername("berniceyu"),
                        Role.STUDENT,
                        new TutorialGroup("10"),
+                       new Remark(""),
                        getTagSet("colleagues", "friends")),
             new Person(new Name("Charlotte Oliveiro"),
                        new Phone("93210283"),
@@ -49,6 +52,7 @@ public class SampleDataUtil {
                        new GithubUsername("charlotte"),
                        Role.STUDENT,
                        new TutorialGroup("02"),
+                       new Remark(""),
                        getTagSet("neighbours")),
             new Person(new Name("David Li"),
                        new Phone("91031282"),
@@ -58,6 +62,7 @@ public class SampleDataUtil {
                        new GithubUsername("davidli"),
                        Role.STUDENT,
                        new TutorialGroup("01"),
+                       new Remark(""),
                        getTagSet("family")),
             new Person(new Name("Irfan Ibrahim"),
                        new Phone("92492021"),
@@ -67,6 +72,7 @@ public class SampleDataUtil {
                        new GithubUsername("irfan"),
                        Role.STUDENT,
                        new TutorialGroup("01"),
+                       new Remark(""),
                        getTagSet("classmates")),
             new Person(new Name("Roy Balakrishnan"),
                        new Phone("92624417"),
@@ -76,6 +82,7 @@ public class SampleDataUtil {
                        new GithubUsername("royb"),
                        Role.STUDENT,
                        new TutorialGroup("01"),
+                       new Remark(""),
                        getTagSet("colleagues"))
         };
     }

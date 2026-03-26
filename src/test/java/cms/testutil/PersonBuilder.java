@@ -9,6 +9,7 @@ import cms.model.person.Name;
 import cms.model.person.NusId;
 import cms.model.person.Person;
 import cms.model.person.Phone;
+import cms.model.person.Remark;
 import cms.model.person.Role;
 import cms.model.person.SocUsername;
 import cms.model.person.TutorialGroup;
@@ -28,6 +29,7 @@ public class PersonBuilder {
     public static final String DEFAULT_GITHUBUSERNAME = "amybee";
     public static final Role DEFAULT_ROLE = Role.STUDENT;
     public static final String DEFAULT_TUTORIALGROUP = "1";
+    public static final String DEFAULT_REMARK = "";
 
     private Name name;
     private Phone phone;
@@ -37,6 +39,7 @@ public class PersonBuilder {
     private GithubUsername githubUsername;
     private Role role;
     private TutorialGroup tutorialGroup;
+    private Remark remark;
     private Set<Tag> tags;
 
     /**
@@ -51,6 +54,7 @@ public class PersonBuilder {
         githubUsername = new GithubUsername(DEFAULT_GITHUBUSERNAME);
         role = DEFAULT_ROLE;
         tutorialGroup = new TutorialGroup(DEFAULT_TUTORIALGROUP);
+        remark = new Remark(DEFAULT_REMARK);
         tags = new HashSet<>();
     }
 
@@ -66,6 +70,7 @@ public class PersonBuilder {
         githubUsername = personToCopy.getGithubUsername();
         role = personToCopy.getRole();
         tutorialGroup = personToCopy.getTutorialGroup();
+        remark = personToCopy.getRemark();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -141,8 +146,16 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Remark} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRemark(String remark) {
+        this.remark = new Remark(remark);
+        return this;
+    }
+
     public Person build() {
-        return new Person(name, phone, email, nusId, socUsername, githubUsername, role, tutorialGroup, tags);
+        return new Person(name, phone, email, nusId, socUsername, githubUsername, role, tutorialGroup, remark, tags);
     }
 
 }
