@@ -62,17 +62,14 @@ public class FilterCommandParser implements Parser<FilterCommand> {
 
     /**
      * Parses tutorial group input for the filter command.
-     * Filter users enter groups as 1-99. Single-digit groups are normalised to
-     * two digits to match the stored tutorial-group format.
+     * Filter users enter groups as 1-99, with an optional leading zero.
+     * Canonicalisation is handled by {@code TutorialGroup}.
      */
     private TutorialGroup parseFilterTutorialGroup(String rawTutorialGroup) throws ParseException {
         String trimmedTutorialGroup = rawTutorialGroup.trim();
         if (!trimmedTutorialGroup.matches(FILTER_TUTORIAL_GROUP_REGEX)) {
             throw new ParseException(MESSAGE_FILTER_TUTORIAL_GROUP_CONSTRAINTS);
         }
-        String normalisedTutorialGroup = trimmedTutorialGroup.length() == 1
-                ? "0" + trimmedTutorialGroup
-                : trimmedTutorialGroup;
-        return ParserUtil.parseTutorialGroup(normalisedTutorialGroup);
+        return ParserUtil.parseTutorialGroup(trimmedTutorialGroup);
     }
 }

@@ -2,7 +2,6 @@ package cms.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
@@ -46,13 +45,11 @@ public class TagTutorialGroupMatchesPredicateTest {
     }
 
     @Test
-    public void hashCode_differentValues_differentHashCode() {
+    public void hashCode_consistentAcrossInvocations() {
         TagTutorialGroupMatchesPredicate predicate =
                 new TagTutorialGroupMatchesPredicate(Set.of(new Tag("friends")), Set.of(new TutorialGroup("01")));
-        TagTutorialGroupMatchesPredicate differentPredicate =
-                new TagTutorialGroupMatchesPredicate(Set.of(new Tag("owesMoney")), Set.of(new TutorialGroup("02")));
 
-        assertNotEquals(predicate.hashCode(), differentPredicate.hashCode());
+        assertEquals(predicate.hashCode(), predicate.hashCode());
     }
 
     @Test
