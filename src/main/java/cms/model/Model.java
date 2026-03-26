@@ -115,4 +115,9 @@ public interface Model {
      * Sorts the underlying person list by tutorial group in ascending order.
      */
     void sortPersonsByTutorialGroup();
+
+    /**
+     * Sorts the underlying person list by name in ascending order.
+     */
+    void sortPersonsByName();
 }

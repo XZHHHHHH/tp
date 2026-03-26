@@ -305,6 +305,34 @@ public class UniquePersonListTest {
     }
 
     @Test
+    public void sortByName_unsortedNames_sortsAlphabeticallyIgnoringCase() {
+        Person zed = createSortTestPerson("zed sort", "A1234579N", "sort-name-z@test.com",
+                "nsort1", "sort-name-z-gh", "05");
+        Person amy = createSortTestPerson("Amy sort", "A1234580P", "sort-name-a@test.com",
+                "nsort2", "sort-name-a-gh", "06");
+
+        uniquePersonList.add(zed);
+        uniquePersonList.add(amy);
+        uniquePersonList.sortByName();
+
+        assertEquals(Arrays.asList(amy, zed), uniquePersonList.asUnmodifiableObservableList());
+    }
+
+    @Test
+    public void sortByName_sameNameIgnoringCase_usesCaseSensitiveTieBreaker() {
+        Person lowercaseAmy = createSortTestPerson("amy sort", "A1234581Q", "sort-name-c@test.com",
+                "nsort3", "sort-name-c-gh", "07");
+        Person uppercaseAmy = createSortTestPerson("Amy sort", "A1234582R", "sort-name-d@test.com",
+                "nsort4", "sort-name-d-gh", "08");
+
+        uniquePersonList.add(lowercaseAmy);
+        uniquePersonList.add(uppercaseAmy);
+        uniquePersonList.sortByName();
+
+        assertEquals(Arrays.asList(uppercaseAmy, lowercaseAmy), uniquePersonList.asUnmodifiableObservableList());
+    }
+
+    @Test
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, ()
                 -> uniquePersonList.asUnmodifiableObservableList().remove(0));

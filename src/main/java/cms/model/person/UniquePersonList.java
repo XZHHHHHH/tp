@@ -126,6 +126,21 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * Sorts the internal list by name in ascending order.
+     * Comparison is case-insensitive first, with a case-sensitive tie-breaker for determinism.
+     */
+    public void sortByName() {
+        FXCollections.sort(internalList, (first, second) -> {
+            int caseInsensitiveComparison = first.getName().fullName.compareToIgnoreCase(second.getName().fullName);
+            if (caseInsensitiveComparison != 0) {
+                return caseInsensitiveComparison;
+            }
+
+            return first.getName().fullName.compareTo(second.getName().fullName);
+        });
+    }
+
+    /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
     public ObservableList<Person> asUnmodifiableObservableList() {

@@ -20,7 +20,7 @@ import cms.testutil.PersonBuilder;
 public class SortCommandTest {
 
     @Test
-    public void execute_unsortedList_sortsByTutorialGroup() {
+    public void execute_sortByTutorialGroup_sortsByTutorialGroup() {
         Person tutorialGroupTen = new PersonBuilder()
                 .withName("Sort Command Alpha")
                 .withNusId("A1111111B")
@@ -47,7 +47,41 @@ public class SortCommandTest {
         expectedModel.sortPersonsByTutorialGroup();
 
         assertEquals(Arrays.asList(tutorialGroupTen, tutorialGroupTwo), model.getFilteredPersonList());
-        assertCommandSuccess(new SortCommand(), model, SortCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new SortCommand(SortCommand.SORT_BY_TUTORIAL_GROUP), model,
+                SortCommand.MESSAGE_SUCCESS_TUTORIAL_GROUP, expectedModel);
         assertEquals(Arrays.asList(tutorialGroupTwo, tutorialGroupTen), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_sortByName_sortsByName() {
+        Person zed = new PersonBuilder()
+                .withName("Zed Sort")
+                .withNusId("A1111113D")
+                .withEmail("sort-command-c@test.com")
+                .withSocUsername("sortcmd3")
+                .withGithubUsername("sortcmd-gh-3")
+                .withTutorialGroup("03")
+                .build();
+        Person amy = new PersonBuilder()
+                .withName("Amy Sort")
+                .withNusId("A1111114E")
+                .withEmail("sort-command-d@test.com")
+                .withSocUsername("sortcmd4")
+                .withGithubUsername("sortcmd-gh-4")
+                .withTutorialGroup("04")
+                .build();
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(zed);
+        addressBook.addPerson(amy);
+
+        Model model = new ModelManager(addressBook, new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(addressBook), new UserPrefs());
+        expectedModel.sortPersonsByName();
+
+        assertEquals(Arrays.asList(zed, amy), model.getFilteredPersonList());
+        assertCommandSuccess(new SortCommand(SortCommand.SORT_BY_NAME), model,
+                SortCommand.MESSAGE_SUCCESS_NAME, expectedModel);
+        assertEquals(Arrays.asList(amy, zed), model.getFilteredPersonList());
     }
 }

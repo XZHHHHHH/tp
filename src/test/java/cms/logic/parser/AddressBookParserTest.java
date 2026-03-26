@@ -101,9 +101,28 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_sort() throws Exception {
-        assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD) instanceof SortCommand);
-        assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD + " 3") instanceof SortCommand);
+    public void parseCommand_sortTutorialGroup() throws Exception {
+        assertEquals(new SortCommand(SortCommand.SORT_BY_TUTORIAL_GROUP),
+                parser.parseCommand(SortCommand.COMMAND_WORD + " " + SortCommand.SORT_BY_TUTORIAL_GROUP));
+    }
+
+    @Test
+    public void parseCommand_sortName() throws Exception {
+        assertEquals(new SortCommand(SortCommand.SORT_BY_NAME),
+                parser.parseCommand(SortCommand.COMMAND_WORD + " " + SortCommand.SORT_BY_NAME));
+    }
+
+    @Test
+    public void parseCommand_sortInvalidArgument_throwsParseException() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE);
+        assertThrows(ParseException.class, expectedMessage, () -> parser.parseCommand(SortCommand.COMMAND_WORD
+                + " invalid"));
+    }
+
+    @Test
+    public void parseCommand_sortMissingArgument_throwsParseException() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE);
+        assertThrows(ParseException.class, expectedMessage, () -> parser.parseCommand(SortCommand.COMMAND_WORD));
     }
 
     @Test

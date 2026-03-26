@@ -75,7 +75,7 @@ public class AddressBookParser {
             return new ListCommand();
 
         case SortCommand.COMMAND_WORD:
-            return new SortCommand();
+            return new SortCommandParser().parse(arguments);
 
         case MaskCommand.COMMAND_WORD:
             return new MaskCommand();

@@ -118,6 +118,13 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.sortByTutorialGroup();
     }
 
+    /**
+     * Sorts the backing person list by name in ascending order.
+     */
+    public void sortPersonsByName() {
+        persons.sortByName();
+    }
+
     /// / util methods
 
     @Override
