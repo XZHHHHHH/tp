@@ -25,6 +25,7 @@ import cms.logic.commands.FindCommand;
 import cms.logic.commands.HelpCommand;
 import cms.logic.commands.ListCommand;
 import cms.logic.commands.MaskCommand;
+import cms.logic.commands.RemarkCommand;
 import cms.logic.commands.SortCommand;
 import cms.logic.commands.UnmaskCommand;
 import cms.logic.parser.exceptions.ParseException;
@@ -33,6 +34,7 @@ import cms.model.person.CombinedFindPredicate;
 import cms.model.person.NameContainsKeywordsPredicate;
 import cms.model.person.NusIdContainsKeywordsPredicate;
 import cms.model.person.Person;
+import cms.model.person.Remark;
 import cms.model.person.TagTutorialGroupMatchesPredicate;
 import cms.model.person.TutorialGroup;
 import cms.model.tag.Tag;
@@ -100,6 +102,13 @@ public class AddressBookParserTest {
                 new TagTutorialGroupMatchesPredicate(java.util.Set.of(new Tag("friends")),
                         java.util.Set.of(new TutorialGroup("01")))),
                 command);
+    }
+
+    @Test
+    public void parseCommand_remark() throws Exception {
+        RemarkCommand command = (RemarkCommand) parser.parseCommand(
+                RemarkCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + " r/Needs more feedback");
+        assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, new Remark("Needs more feedback")), command);
     }
 
     @Test

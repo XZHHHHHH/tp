@@ -50,6 +50,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label tutorialGroup;
     @FXML
+    private Label remark;
+    @FXML
     private FlowPane tags;
 
     /**
@@ -71,6 +73,7 @@ public class PersonCard extends UiPart<Region> {
                 : person.getGithubUsername().value);
         role.setText(person.getRole().value);
         tutorialGroup.setText(String.valueOf(person.getTutorialGroup().value));
+        remark.setText(person.getRemark().value.isEmpty() ? "Remark: -" : "Remark: " + person.getRemark().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

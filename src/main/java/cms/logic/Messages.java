@@ -65,6 +65,8 @@ public class Messages {
                 .append(person.getRole())
                 .append("; Tutorial Group: ")
                 .append(person.getTutorialGroup())
+                .append("; Remark: ")
+                .append(person.getRemark())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
         return builder.toString();

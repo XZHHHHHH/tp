@@ -35,6 +35,7 @@
             <Label fx:id="githubUsername" styleClass="cell_small_label" text="\$githubUsername"/>
             <Label fx:id="role" styleClass="cell_small_label" text="\$role"/>
             <Label fx:id="tutorialGroup" styleClass="cell_small_label" text="\$tutorialGroup"/>
+            <Label fx:id="remark" styleClass="cell_small_label" text="\$remark"/>
         </VBox>
     </GridPane>
 </HBox>

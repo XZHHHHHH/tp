@@ -19,6 +19,7 @@ import cms.logic.commands.FindCommand;
 import cms.logic.commands.HelpCommand;
 import cms.logic.commands.ListCommand;
 import cms.logic.commands.MaskCommand;
+import cms.logic.commands.RemarkCommand;
 import cms.logic.commands.SortCommand;
 import cms.logic.commands.UnmaskCommand;
 import cms.logic.parser.exceptions.ParseException;
@@ -77,6 +78,9 @@ public class AddressBookParser {
 
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
+
+        case RemarkCommand.COMMAND_WORD:
+            return new RemarkCommandParser().parse(arguments);
 
         case SortCommand.COMMAND_WORD:
             return new SortCommandParser().parse(arguments);

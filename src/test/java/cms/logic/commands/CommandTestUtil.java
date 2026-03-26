@@ -6,6 +6,7 @@ import static cms.logic.parser.CliSyntax.PREFIX_NAME;
 import static cms.logic.parser.CliSyntax.PREFIX_NUSID;
 import static cms.logic.parser.CliSyntax.PREFIX_PHONE;
 import static cms.logic.parser.CliSyntax.PREFIX_ROLE;
+import static cms.logic.parser.CliSyntax.PREFIX_REMARK;
 import static cms.logic.parser.CliSyntax.PREFIX_SOCUSERNAME;
 import static cms.logic.parser.CliSyntax.PREFIX_TAG;
 import static cms.logic.parser.CliSyntax.PREFIX_TUTORIALGROUP;
@@ -49,6 +50,8 @@ public class CommandTestUtil {
     public static final String VALID_ROLE_BOB = "tutor";
     public static final String VALID_TUTORIALGROUP_AMY = "1";
     public static final String VALID_TUTORIALGROUP_BOB = "2";
+    public static final String VALID_REMARK_AMY = "Needs help with recursion";
+    public static final String VALID_REMARK_BOB = "Prefers concise feedback";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -69,6 +72,8 @@ public class CommandTestUtil {
     public static final String ROLE_DESC_BOB = " " + PREFIX_ROLE + VALID_ROLE_BOB;
     public static final String TUTORIALGROUP_DESC_AMY = " " + PREFIX_TUTORIALGROUP + VALID_TUTORIALGROUP_AMY;
     public static final String TUTORIALGROUP_DESC_BOB = " " + PREFIX_TUTORIALGROUP + VALID_TUTORIALGROUP_BOB;
+    public static final String REMARK_DESC_AMY = " " + PREFIX_REMARK + VALID_REMARK_AMY;
+    public static final String REMARK_DESC_BOB = " " + PREFIX_REMARK + VALID_REMARK_BOB;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
