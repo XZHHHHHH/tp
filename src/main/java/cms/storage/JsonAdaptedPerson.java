@@ -16,6 +16,7 @@ import cms.model.person.Name;
 import cms.model.person.NusId;
 import cms.model.person.Person;
 import cms.model.person.Phone;
+import cms.model.person.Remark;
 import cms.model.person.Role;
 import cms.model.person.SocUsername;
 import cms.model.person.TutorialGroup;
@@ -36,6 +37,7 @@ class JsonAdaptedPerson {
     private final String githubUsername;
     private final String role;
     private final String tutorialGroup;
+    private final String remark;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -50,6 +52,7 @@ class JsonAdaptedPerson {
                              @JsonProperty("githubUsername") String githubUsername,
                              @JsonProperty("role") String role,
                              @JsonProperty("tutorialGroup") String tutorialGroup,
+                             @JsonProperty("remark") String remark,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
@@ -59,6 +62,7 @@ class JsonAdaptedPerson {
         this.githubUsername = githubUsername;
         this.role = role;
         this.tutorialGroup = tutorialGroup;
+        this.remark = remark;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -76,6 +80,7 @@ class JsonAdaptedPerson {
         githubUsername = source.getGithubUsername().value;
         role = source.getRole().value;
         tutorialGroup = String.valueOf(source.getTutorialGroup().value);
+        remark = source.getRemark().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -159,11 +164,12 @@ class JsonAdaptedPerson {
             throw new IllegalValueException(TutorialGroup.MESSAGE_CONSTRAINTS);
         }
         final TutorialGroup modelTutorialGroup = new TutorialGroup(tutorialGroup);
+        final Remark modelRemark = new Remark(remark == null ? "" : remark);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName, modelPhone, modelEmail, modelNusId,
                 modelSocUsername, modelGithubUsername,
-                modelRole, modelTutorialGroup, modelTags);
+                modelRole, modelTutorialGroup, modelRemark, modelTags);
     }
 
 }

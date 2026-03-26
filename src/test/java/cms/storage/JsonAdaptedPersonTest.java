@@ -15,6 +15,7 @@ import cms.commons.exceptions.IllegalValueException;
 import cms.model.person.Email;
 import cms.model.person.Name;
 import cms.model.person.Phone;
+import cms.testutil.PersonBuilder;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
@@ -30,6 +31,7 @@ public class JsonAdaptedPersonTest {
     private static final String VALID_GITHUBUSERNAME = BENSON.getGithubUsername().toString();
     private static final String VALID_ROLE = BENSON.getRole().toString();
     private static final String VALID_TUTORIALGROUP = BENSON.getTutorialGroup().toString();
+    private static final String VALID_REMARK = BENSON.getRemark().toString();
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
@@ -45,7 +47,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(INVALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_NUSID,
                 VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
-                        VALID_ROLE, VALID_TUTORIALGROUP, VALID_TAGS);
+                        VALID_ROLE, VALID_TUTORIALGROUP, VALID_REMARK, VALID_TAGS);
         String expectedMessage = Name.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -54,7 +56,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_nullName_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(null, VALID_PHONE, VALID_EMAIL,
             VALID_NUSID, VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
-                VALID_ROLE, VALID_TUTORIALGROUP, VALID_TAGS);
+                VALID_ROLE, VALID_TUTORIALGROUP, VALID_REMARK, VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -63,7 +65,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_nameWithExtraSpaces_returnsCanonicalizedPerson() throws Exception {
         JsonAdaptedPerson person = new JsonAdaptedPerson("  " + VALID_NAME + "   ", VALID_PHONE, VALID_EMAIL,
                 VALID_NUSID, VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
-                VALID_ROLE, VALID_TUTORIALGROUP, VALID_TAGS);
+                VALID_ROLE, VALID_TUTORIALGROUP, VALID_REMARK, VALID_TAGS);
         assertEquals(BENSON, person.toModelType());
     }
 
@@ -72,7 +74,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_NUSID,
                 VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
-                        VALID_ROLE, VALID_TUTORIALGROUP, VALID_TAGS);
+                        VALID_ROLE, VALID_TUTORIALGROUP, VALID_REMARK, VALID_TAGS);
         String expectedMessage = Phone.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -81,7 +83,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_nullPhone_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, null, VALID_EMAIL,
             VALID_NUSID, VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
-                VALID_ROLE, VALID_TUTORIALGROUP, VALID_TAGS);
+                VALID_ROLE, VALID_TUTORIALGROUP, VALID_REMARK, VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -90,7 +92,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidEmail_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, INVALID_EMAIL,
             VALID_NUSID, VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
-                VALID_ROLE, VALID_TUTORIALGROUP, VALID_TAGS);
+                VALID_ROLE, VALID_TUTORIALGROUP, VALID_REMARK, VALID_TAGS);
         String expectedMessage = Email.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -99,7 +101,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_nullEmail_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, null,
                 VALID_NUSID, VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
-                VALID_ROLE, VALID_TUTORIALGROUP, VALID_TAGS);
+                VALID_ROLE, VALID_TUTORIALGROUP, VALID_REMARK, VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -110,8 +112,25 @@ public class JsonAdaptedPersonTest {
         invalidTags.add(new JsonAdaptedTag(INVALID_TAG));
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
             VALID_NUSID, VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
-            VALID_ROLE, VALID_TUTORIALGROUP, invalidTags);
+            VALID_ROLE, VALID_TUTORIALGROUP, VALID_REMARK, invalidTags);
         assertThrows(IllegalValueException.class, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_missingRemark_defaultsToEmptyRemark() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
+                VALID_NUSID, VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
+                VALID_ROLE, VALID_TUTORIALGROUP, null, VALID_TAGS);
+        assertEquals(BENSON, person.toModelType());
+    }
+
+    @Test
+    public void toModelType_nonEmptyRemark_returnsPersonWithRemark() throws Exception {
+        String remark = "Needs more practice with testing";
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
+                VALID_NUSID, VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
+                VALID_ROLE, VALID_TUTORIALGROUP, remark, VALID_TAGS);
+        assertEquals(new PersonBuilder(BENSON).withRemark(remark).build(), person.toModelType());
     }
 
 }
