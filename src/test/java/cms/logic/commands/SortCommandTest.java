@@ -1,7 +1,10 @@
 package cms.logic.commands;
 
 import static cms.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static cms.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
@@ -18,6 +21,12 @@ import cms.testutil.PersonBuilder;
  * Contains integration tests for {@code SortCommand}.
  */
 public class SortCommandTest {
+
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        SortCommand sortCommand = new SortCommand(SortCommand.SORT_BY_NAME);
+        assertThrows(NullPointerException.class, () -> sortCommand.execute(null));
+    }
 
     @Test
     public void execute_sortByTutorialGroup_sortsByTutorialGroup() {
@@ -83,5 +92,18 @@ public class SortCommandTest {
         assertCommandSuccess(new SortCommand(SortCommand.SORT_BY_NAME), model,
                 SortCommand.MESSAGE_SUCCESS_NAME, expectedModel);
         assertEquals(Arrays.asList(amy, zed), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void equals() {
+        SortCommand sortByTutorialGroup = new SortCommand(SortCommand.SORT_BY_TUTORIAL_GROUP);
+        SortCommand sortByTutorialGroupCopy = new SortCommand(SortCommand.SORT_BY_TUTORIAL_GROUP);
+        SortCommand sortByName = new SortCommand(SortCommand.SORT_BY_NAME);
+
+        assertTrue(sortByTutorialGroup.equals(sortByTutorialGroup));
+        assertTrue(sortByTutorialGroup.equals(sortByTutorialGroupCopy));
+        assertFalse(sortByTutorialGroup.equals(sortByName));
+        assertFalse(sortByTutorialGroup.equals(1));
+        assertFalse(sortByTutorialGroup.equals(null));
     }
 }
