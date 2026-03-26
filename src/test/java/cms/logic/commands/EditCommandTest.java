@@ -2,6 +2,7 @@ package cms.logic.commands;
 
 import static cms.logic.commands.CommandTestUtil.DESC_AMY;
 import static cms.logic.commands.CommandTestUtil.DESC_BOB;
+import static cms.logic.commands.CommandTestUtil.INVALID_SOCUSERNAME_NUSID_MISMATCH;
 import static cms.logic.commands.CommandTestUtil.VALID_GITHUBUSERNAME_BOB;
 import static cms.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static cms.logic.commands.CommandTestUtil.VALID_NUSID_BOB;
@@ -206,6 +207,16 @@ public class EditCommandTest {
         expectedModel.setPerson(personToEdit, editedPerson);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_socUsernameNusIdMismatch_failure() {
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+            .withSocUsername(INVALID_SOCUSERNAME_NUSID_MISMATCH)
+            .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        assertCommandFailure(editCommand, model, Person.MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH);
     }
 
     @Test

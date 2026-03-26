@@ -12,8 +12,7 @@ public class SocUsername {
     public static final String MESSAGE_CONSTRAINTS =
             "SOC username must be 5-8 characters (or a valid NUS-ID form), using only lowercase letters, "
                 + "digits, and hyphens, and cannot start or end with a hyphen.";
-    public static final String VALIDATION_REGEX = "^(?=.{5,8}$)(?!-)[a-z0-9-]+(?<!-)$|"
-            + NusId.VALIDATION_REGEX; // Either 5-8 chars or valid NUS ID
+    public static final String VALIDATION_REGEX = "^(?=.{5,8}$)(?!-)[a-z0-9-]+(?<!-)$";
     public final String value;
 
     /**
@@ -42,7 +41,7 @@ public class SocUsername {
      * Returns true if a given string is a valid SOC username.
      */
     public static boolean isValidSocUsername(String test) {
-        return test.matches(VALIDATION_REGEX);
+        return test.matches(VALIDATION_REGEX) || NusId.isValidNusId(test);
     }
 
     @Override

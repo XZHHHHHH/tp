@@ -8,6 +8,7 @@ import static cms.logic.commands.CommandTestUtil.GITHUBUSERNAME_DESC_BOB;
 import static cms.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static cms.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static cms.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static cms.logic.commands.CommandTestUtil.INVALID_SOCUSERNAME_NUSID_MISMATCH_DESC;
 import static cms.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static cms.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static cms.logic.commands.CommandTestUtil.NAME_DESC_BOB;
@@ -190,6 +191,12 @@ public class AddCommandParserTest {
         assertParseFailure(parser, INVALID_NAME_DESC + NUSID_DESC_BOB + ROLE_DESC_BOB + SOCUSERNAME_DESC_BOB
                 + GITHUBUSERNAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC
                 + TUTORIALGROUP_DESC_BOB, Name.MESSAGE_CONSTRAINTS);
+
+        // SOC username in NUS ID format must match the given NUS ID
+        assertParseFailure(parser, NAME_DESC_BOB + NUSID_DESC_BOB + ROLE_DESC_BOB
+                + INVALID_SOCUSERNAME_NUSID_MISMATCH_DESC
+                + GITHUBUSERNAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + TUTORIALGROUP_DESC_BOB, Person.MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + NUSID_DESC_BOB + ROLE_DESC_BOB

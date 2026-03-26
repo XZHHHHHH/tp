@@ -16,6 +16,8 @@ import cms.model.tag.Tag;
  * immutable.
  */
 public class Person {
+    public static final String MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH =
+            "SOC username that are in NUS ID format must match the person's NUS ID.";
 
     // Identity fields
     private final Name name;
@@ -37,6 +39,7 @@ public class Person {
             GithubUsername githubUsername, Role role,
             TutorialGroup tutorialGroup, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, nusId, socUsername, githubUsername, role, tutorialGroup, tags);
+        validateSocUsernameNusIdConsistency(nusId, socUsername);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -46,6 +49,16 @@ public class Person {
         this.role = role;
         this.tutorialGroup = tutorialGroup;
         this.tags.addAll(tags);
+    }
+
+    /**
+     * Ensures that if SOC username uses NUS ID format, it matches this person's NUS ID.
+     */
+    private static void validateSocUsernameNusIdConsistency(NusId nusId, SocUsername socUsername) {
+        if (NusId.isValidNusId(socUsername.value)
+                && !NusId.canonicalise(socUsername.value).equals(nusId.value)) {
+            throw new IllegalArgumentException(MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH);
+        }
     }
 
     public Name getName() {
