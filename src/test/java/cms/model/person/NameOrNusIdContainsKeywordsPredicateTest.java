@@ -122,6 +122,7 @@ public class NameOrNusIdContainsKeywordsPredicateTest {
         Person base = new PersonBuilder().withNusId("A0123456B").build();
         Person personWithNullNus = new Person(base.getName(), base.getPhone(), base.getEmail(), base.getNusId(),
                 base.getSocUsername(), base.getGithubUsername(), base.getRole(), base.getTutorialGroup(),
+                base.getRemark(),
                 base.getTags()) {
             @Override
             public NusId getNusId() {
