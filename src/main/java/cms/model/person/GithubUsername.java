@@ -11,7 +11,8 @@ public class GithubUsername {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Github username must be 1-39 characters, using only alphanumeric characters or hyphens, "
-                + "cannot start or end with a hyphen, and cannot contain consecutive hyphens.";
+                + "cannot start or end with a hyphen, and cannot contain consecutive hyphens. "
+                + "Input is case-insensitive: leading/trailing spaces are trimmed and it is stored in lowercase.";
     public static final String VALIDATION_REGEX = "^(?=.{1,39}$)(?!-)(?!.*--)[a-zA-Z0-9-]+(?<!-)$";
     public final String value;
 
@@ -22,15 +23,30 @@ public class GithubUsername {
      */
     public GithubUsername(String githubUsername) {
         requireNonNull(githubUsername);
-        checkArgument(isValidGithubUsername(githubUsername), MESSAGE_CONSTRAINTS);
-        value = githubUsername;
+        String canonical = canonicalise(githubUsername);
+        checkArgument(isValidGithubUsername(canonical), MESSAGE_CONSTRAINTS);
+        value = canonical;
+    }
+
+    /**
+     * Canonicalises the github username: trims spaces and converts to lowercase.
+     */
+    public static String canonicalise(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input.trim().toLowerCase();
     }
 
     /**
      * Returns true if a given string is a valid Github username.
      */
     public static boolean isValidGithubUsername(String test) {
-        return test.matches(VALIDATION_REGEX);
+        if (test == null) {
+            return false;
+        }
+        String canonical = canonicalise(test);
+        return canonical.matches(VALIDATION_REGEX);
     }
 
     @Override

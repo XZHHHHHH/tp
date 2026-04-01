@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import cms.commons.util.ToStringBuilder;
+import cms.model.person.exceptions.InvalidPersonException;
 import cms.model.tag.Tag;
 
 /**
@@ -34,6 +35,8 @@ public class Person {
 
     /**
      * Every field must be present and not null.
+         *
+         * @throws InvalidPersonException if any model-level person invariant is violated
      */
     public Person(Name name, Phone phone, Email email, NusId nusId, SocUsername socUsername,
             GithubUsername githubUsername, Role role,
@@ -57,7 +60,7 @@ public class Person {
     private static void validateSocUsernameNusIdConsistency(NusId nusId, SocUsername socUsername) {
         if (NusId.isValidNusId(socUsername.value)
                 && !NusId.canonicalise(socUsername.value).equals(nusId.value)) {
-            throw new IllegalArgumentException(MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH);
+            throw new InvalidPersonException(MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH);
         }
     }
 

@@ -19,7 +19,7 @@ public class SocUsernameTest {
     @Test
     public void isValidSocUsername_canonicalInput() {
         // null input
-        assertThrows(NullPointerException.class, () -> SocUsername.isValidSocUsername(null));
+        assertFalse(SocUsername.isValidSocUsername(null));
 
         // invalid canonical forms
         assertFalse(SocUsername.isValidSocUsername("tak")); // too short
@@ -32,6 +32,13 @@ public class SocUsernameTest {
         assertTrue(SocUsername.isValidSocUsername("tan8888"));
         assertTrue(SocUsername.isValidSocUsername("u1999999"));
         assertTrue(SocUsername.isValidSocUsername("a0234567b"));
+    }
+
+    @Test
+    public void isValidSocUsername_nonCanonicalInput() {
+        // valid after canonicalisation
+        assertTrue(SocUsername.isValidSocUsername("  Tan8888  "));
+        assertTrue(SocUsername.isValidSocUsername("  A0234567B  "));
     }
 
     @Test

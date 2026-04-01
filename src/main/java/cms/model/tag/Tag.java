@@ -41,7 +41,11 @@ public class Tag {
      * Returns true if a given string is a valid tag name.
      */
     public static boolean isValidTagName(String test) {
-        return test.matches(VALIDATION_REGEX);
+        if (test == null) {
+            return false;
+        }
+        String canonical = canonicalise(test);
+        return canonical.matches(VALIDATION_REGEX);
     }
 
     @Override

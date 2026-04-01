@@ -42,7 +42,11 @@ public class SocUsername {
      * Returns true if a given string is a valid SOC username.
      */
     public static boolean isValidSocUsername(String test) {
-        return test.matches(VALIDATION_REGEX) || NusId.isValidNusId(test);
+        if (test == null) {
+            return false;
+        }
+        String canonical = canonicalise(test);
+        return canonical.matches(VALIDATION_REGEX) || NusId.isValidNusId(canonical);
     }
 
     @Override

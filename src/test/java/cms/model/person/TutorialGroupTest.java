@@ -18,7 +18,7 @@ public class TutorialGroupTest {
     @Test
     public void isValidTutorialGroup_canonicalInput() {
         // null input
-        assertThrows(NullPointerException.class, () -> TutorialGroup.isValidTutorialGroup(null));
+        assertFalse(TutorialGroup.isValidTutorialGroup(null));
 
         // invalid canonical forms
         assertFalse(TutorialGroup.isValidTutorialGroup("0")); // lower bound
@@ -32,6 +32,11 @@ public class TutorialGroupTest {
         assertTrue(TutorialGroup.isValidTutorialGroup("99"));
         assertTrue(TutorialGroup.isValidTutorialGroup("01"));
         assertTrue(TutorialGroup.isValidTutorialGroup("00099"));
+    }
+
+    @Test
+    public void isValidTutorialGroup_nonCanonicalInput() {
+        assertTrue(TutorialGroup.isValidTutorialGroup(" 0007 "));
     }
 
     @Test

@@ -25,6 +25,7 @@ import cms.model.person.Phone;
 import cms.model.person.Role;
 import cms.model.person.SocUsername;
 import cms.model.person.TutorialGroup;
+import cms.model.person.exceptions.InvalidPersonException;
 import cms.model.tag.Tag;
 
 /**
@@ -69,7 +70,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         try {
             person = new Person(name, phone, email, nusId, socUsername,
                 githubUsername, role, tutorialGroup, tagList);
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidPersonException e) {
             throw new ParseException(e.getMessage(), e);
         }
 

@@ -20,7 +20,7 @@ public class TagTest {
     @Test
     public void isValidTagName_canonicalInput() {
         // null input
-        assertThrows(NullPointerException.class, () -> Tag.isValidTagName(null));
+        assertFalse(Tag.isValidTagName(null));
 
         // invalid canonical forms
         assertFalse(Tag.isValidTagName("struggling struggling")); // spaces not allowed
@@ -33,6 +33,11 @@ public class TagTest {
         // valid canonical forms
         assertTrue(Tag.isValidTagName("struggling")); // plain alphanumeric
         assertTrue(Tag.isValidTagName("python-experienced")); // hyphenated alphanumeric segments
+    }
+
+    @Test
+    public void isValidTagName_nonCanonicalInput() {
+        assertTrue(Tag.isValidTagName("  Struggling  "));
     }
 
     @Test
