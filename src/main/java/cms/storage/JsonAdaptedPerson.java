@@ -161,7 +161,7 @@ class JsonAdaptedPerson {
         final TutorialGroup modelTutorialGroup = new TutorialGroup(tutorialGroup);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelNusId,
+        return Person.create(modelName, modelPhone, modelEmail, modelNusId,
                 modelSocUsername, modelGithubUsername,
                 modelRole, modelTutorialGroup, modelTags);
     }

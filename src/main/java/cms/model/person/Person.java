@@ -1,6 +1,7 @@
 package cms.model.person;
 
 import static cms.commons.util.CollectionUtil.requireAllNonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -15,8 +16,7 @@ import cms.model.tag.Tag;
  * Guarantees: details are present and not null, field values are validated,
  * immutable.
  */
-public class Person {
-
+public abstract class Person {
     // Identity fields
     private final Name name;
     private final Phone phone;
@@ -26,7 +26,6 @@ public class Person {
     private final GithubUsername githubUsername;
 
     // Data fields
-    private final Role role;
     private final TutorialGroup tutorialGroup;
     private final Set<Tag> tags = new HashSet<>();
 
@@ -34,18 +33,29 @@ public class Person {
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, NusId nusId, SocUsername socUsername,
-            GithubUsername githubUsername, Role role,
-            TutorialGroup tutorialGroup, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, nusId, socUsername, githubUsername, role, tutorialGroup, tags);
+            GithubUsername githubUsername, TutorialGroup tutorialGroup, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, nusId, socUsername, githubUsername, tutorialGroup, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.nusId = nusId;
         this.socUsername = socUsername;
         this.githubUsername = githubUsername;
-        this.role = role;
         this.tutorialGroup = tutorialGroup;
         this.tags.addAll(tags);
+    }
+
+    /**
+     * Creates a role-specific person instance.
+     */
+    public static Person create(Name name, Phone phone, Email email, NusId nusId, SocUsername socUsername,
+            GithubUsername githubUsername, Role role, TutorialGroup tutorialGroup, Set<Tag> tags) {
+        requireNonNull(role);
+
+        if (role == Role.STUDENT) {
+            return new Student(name, phone, email, nusId, socUsername, githubUsername, tutorialGroup, tags);
+        }
+        return new Tutor(name, phone, email, nusId, socUsername, githubUsername, tutorialGroup, tags);
     }
 
     public Name getName() {
@@ -72,9 +82,7 @@ public class Person {
         return githubUsername;
     }
 
-    public Role getRole() {
-        return role;
-    }
+    public abstract Role getRole();
 
     public TutorialGroup getTutorialGroup() {
         return tutorialGroup;
@@ -147,7 +155,7 @@ public class Person {
                 && nusId.equals(otherPerson.nusId)
                 && socUsername.equals(otherPerson.socUsername)
                 && githubUsername.equals(otherPerson.githubUsername)
-                && role.equals(otherPerson.role)
+                && getRole().equals(otherPerson.getRole())
                 && tutorialGroup.equals(otherPerson.tutorialGroup)
                 && tags.equals(otherPerson.tags);
     }
@@ -155,7 +163,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, nusId, socUsername, githubUsername, role, tutorialGroup, tags);
+        return Objects.hash(name, phone, email, nusId, socUsername, githubUsername, getRole(), tutorialGroup, tags);
     }
 
     @Override
@@ -167,7 +175,7 @@ public class Person {
                 .add("nusId", nusId)
                 .add("socUsername", socUsername)
                 .add("githubUsername", githubUsername)
-                .add("role", role)
+                .add("role", getRole())
                 .add("tutorialGroup", tutorialGroup)
                 .add("tags", tags)
                 .toString();
