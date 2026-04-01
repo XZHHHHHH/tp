@@ -10,10 +10,10 @@ import static java.util.Objects.requireNonNull;
 public class SocUsername {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "SOC username must be 5-8 characters (or a valid NUS-ID form), using only lowercase letters, "
-                + "digits, and hyphens, and cannot start or end with a hyphen.";
-    public static final String VALIDATION_REGEX = "^(?=.{5,8}$)(?!-)[a-z0-9-]+(?<!-)$|"
-        + NusId.VALIDATION_REGEX; // Either 5-8 chars or valid NUS ID
+            "SOC username must be either: (1) 5-8 characters using letters, digits, and hyphens only, "
+            + "not starting or ending with a hyphen; or (2) a valid NUS ID (9-character alphanumeric). "
+            + "Input is case-insensitive: leading/trailing spaces are trimmed and it is stored in lowercase.";
+    public static final String VALIDATION_REGEX = "^(?=.{5,8}$)(?!-)[a-z0-9-]+(?<!-)$";
     public final String value;
 
     /**
@@ -42,7 +42,11 @@ public class SocUsername {
      * Returns true if a given string is a valid SOC username.
      */
     public static boolean isValidSocUsername(String test) {
-        return test.matches(VALIDATION_REGEX) || NusId.isValidNusId(test);
+        if (test == null) {
+            return false;
+        }
+        String canonical = canonicalise(test);
+        return canonical.matches(VALIDATION_REGEX) || NusId.isValidNusId(canonical);
     }
 
     @Override

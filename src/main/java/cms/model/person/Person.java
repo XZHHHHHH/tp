@@ -1,7 +1,6 @@
 package cms.model.person;
 
 import static cms.commons.util.CollectionUtil.requireAllNonNull;
-import static java.util.Objects.requireNonNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -9,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import cms.commons.util.ToStringBuilder;
+import cms.model.person.exceptions.InvalidPersonException;
 import cms.model.tag.Tag;
 
 /**
@@ -17,6 +17,8 @@ import cms.model.tag.Tag;
  * immutable.
  */
 public abstract class Person {
+    public static final String MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH =
+            "SOC usernames that are in NUS ID format must match the person's NUS ID.";
     // Identity fields
     private final Name name;
     private final Phone phone;
@@ -31,10 +33,13 @@ public abstract class Person {
 
     /**
      * Every field must be present and not null.
+         *
+         * @throws InvalidPersonException if any model-level person invariant is violated
      */
     public Person(Name name, Phone phone, Email email, NusId nusId, SocUsername socUsername,
             GithubUsername githubUsername, TutorialGroup tutorialGroup, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, nusId, socUsername, githubUsername, tutorialGroup, tags);
+        validateSocUsernameNusIdConsistency(nusId, socUsername);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -50,12 +55,22 @@ public abstract class Person {
      */
     public static Person create(Name name, Phone phone, Email email, NusId nusId, SocUsername socUsername,
             GithubUsername githubUsername, Role role, TutorialGroup tutorialGroup, Set<Tag> tags) {
-        requireNonNull(role);
+        Objects.requireNonNull(role);
 
         if (role == Role.STUDENT) {
             return new Student(name, phone, email, nusId, socUsername, githubUsername, tutorialGroup, tags);
         }
         return new Tutor(name, phone, email, nusId, socUsername, githubUsername, tutorialGroup, tags);
+    }
+
+    /**
+     * Ensures that if SOC username uses NUS ID format, it matches this person's NUS ID.
+     */
+    private static void validateSocUsernameNusIdConsistency(NusId nusId, SocUsername socUsername) {
+        if (NusId.isValidNusId(socUsername.value)
+                && !NusId.canonicalise(socUsername.value).equals(nusId.value)) {
+            throw new InvalidPersonException(MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH);
+        }
     }
 
     public Name getName() {

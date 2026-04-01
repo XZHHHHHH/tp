@@ -8,6 +8,7 @@ import static cms.logic.commands.CommandTestUtil.GITHUBUSERNAME_DESC_BOB;
 import static cms.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static cms.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static cms.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static cms.logic.commands.CommandTestUtil.INVALID_SOCUSERNAME_NUSID_MISMATCH_DESC;
 import static cms.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static cms.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static cms.logic.commands.CommandTestUtil.NAME_DESC_BOB;
@@ -73,6 +74,13 @@ public class AddCommandParserTest {
                 NAME_DESC_BOB + NUSID_DESC_BOB + ROLE_DESC_BOB + SOCUSERNAME_DESC_BOB + GITHUBUSERNAME_DESC_BOB
                         + PHONE_DESC_BOB + EMAIL_DESC_BOB + TUTORIALGROUP_DESC_BOB
                         + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                new AddCommand(expectedPersonMultipleTags));
+
+        // multiple tags after a single tag/ prefix - all accepted
+        assertParseSuccess(parser,
+                NAME_DESC_BOB + NUSID_DESC_BOB + ROLE_DESC_BOB + SOCUSERNAME_DESC_BOB + GITHUBUSERNAME_DESC_BOB
+                        + PHONE_DESC_BOB + EMAIL_DESC_BOB + TUTORIALGROUP_DESC_BOB
+                        + " tag/" + VALID_TAG_HUSBAND + " " + VALID_TAG_FRIEND,
                 new AddCommand(expectedPersonMultipleTags));
     }
 
@@ -194,10 +202,21 @@ public class AddCommandParserTest {
                 + GITHUBUSERNAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + TUTORIALGROUP_DESC_BOB + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_CONSTRAINTS);
 
+        // invalid tag in a space-separated tag/ value
+        assertParseFailure(parser, NAME_DESC_BOB + NUSID_DESC_BOB + ROLE_DESC_BOB + SOCUSERNAME_DESC_BOB
+                + GITHUBUSERNAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + TUTORIALGROUP_DESC_BOB + " tag/" + VALID_TAG_HUSBAND + " hubby*", Tag.MESSAGE_CONSTRAINTS);
+
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + NUSID_DESC_BOB + ROLE_DESC_BOB + SOCUSERNAME_DESC_BOB
                 + GITHUBUSERNAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC
                 + TUTORIALGROUP_DESC_BOB, Name.MESSAGE_CONSTRAINTS);
+
+        // SOC username in NUS ID format must match the given NUS ID
+        assertParseFailure(parser, NAME_DESC_BOB + NUSID_DESC_BOB + ROLE_DESC_BOB
+                + INVALID_SOCUSERNAME_NUSID_MISMATCH_DESC
+                + GITHUBUSERNAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + TUTORIALGROUP_DESC_BOB, Person.MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + NUSID_DESC_BOB + ROLE_DESC_BOB

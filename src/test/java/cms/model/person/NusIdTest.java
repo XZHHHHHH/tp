@@ -19,7 +19,7 @@ public class NusIdTest {
     @Test
     public void isValidNusId_canonicalInput() {
         // null input
-        assertThrows(NullPointerException.class, () -> NusId.isValidNusId(null));
+        assertFalse(NusId.isValidNusId(null));
 
         // invalid canonical forms
         assertFalse(NusId.isValidNusId("A0234567")); // missing last letter
@@ -30,6 +30,11 @@ public class NusIdTest {
         // valid canonical forms
         assertTrue(NusId.isValidNusId("A0234567B")); // standard A-prefix form
         assertTrue(NusId.isValidNusId("U0234567B")); // legacy U-prefix form
+    }
+
+    @Test
+    public void isValidNusId_nonCanonicalInput() {
+        assertTrue(NusId.isValidNusId("  a0234567b  "));
     }
 
     @Test

@@ -19,6 +19,7 @@ import cms.model.person.Phone;
 import cms.model.person.Role;
 import cms.model.person.SocUsername;
 import cms.model.person.TutorialGroup;
+import cms.model.person.exceptions.InvalidPersonException;
 import cms.model.tag.Tag;
 
 /**
@@ -161,9 +162,13 @@ class JsonAdaptedPerson {
         final TutorialGroup modelTutorialGroup = new TutorialGroup(tutorialGroup);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return Person.create(modelName, modelPhone, modelEmail, modelNusId,
-                modelSocUsername, modelGithubUsername,
-                modelRole, modelTutorialGroup, modelTags);
+        try {
+            return Person.create(modelName, modelPhone, modelEmail, modelNusId,
+                    modelSocUsername, modelGithubUsername,
+                    modelRole, modelTutorialGroup, modelTags);
+        } catch (InvalidPersonException e) {
+            throw new IllegalValueException(e.getMessage(), e);
+        }
     }
 
 }

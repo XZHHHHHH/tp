@@ -24,7 +24,7 @@ public class PhoneTest {
     @Test
     public void isValidPhone_canonicalInput() {
         // null phone number
-        assertThrows(NullPointerException.class, () -> Phone.isValidPhone(null));
+        assertFalse(Phone.isValidPhone(null));
 
         // invalid phone numbers
         assertFalse(Phone.isValidPhone("")); // empty string
@@ -38,6 +38,11 @@ public class PhoneTest {
         assertTrue(Phone.isValidPhone("911")); // exactly 3 numbers
         assertTrue(Phone.isValidPhone("93121534"));
         assertTrue(Phone.isValidPhone("124293842033123")); // long phone numbers
+    }
+
+    @Test
+    public void isValidPhone_nonCanonicalInput() {
+        assertTrue(Phone.isValidPhone(" 91234567 "));
     }
 
     @Test

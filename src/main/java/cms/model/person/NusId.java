@@ -41,6 +41,9 @@ public class NusId {
      * Returns true if a given string is a valid NUS ID.
      */
     public static boolean isValidNusId(String test) {
+        if (test == null) {
+            return false;
+        }
         return canonicalise(test).matches(VALIDATION_REGEX);
     }
 

@@ -22,6 +22,7 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_EMAIL = "example.com";
+    private static final String INVALID_SOCUSERNAME_NUSID_MISMATCH = "a9999999z";
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = BENSON.getName().toString();
@@ -122,6 +123,15 @@ public class JsonAdaptedPersonTest {
             VALID_NUSID, VALID_SOCUSERNAME, VALID_GITHUBUSERNAME,
             VALID_ROLE, VALID_TUTORIALGROUP, invalidTags);
         assertThrows(IllegalValueException.class, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_socUsernameNusIdMismatch_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
+                VALID_NUSID, INVALID_SOCUSERNAME_NUSID_MISMATCH, VALID_GITHUBUSERNAME,
+                VALID_ROLE, VALID_TUTORIALGROUP, VALID_TAGS);
+
+        assertThrows(IllegalValueException.class, Person.MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH, person::toModelType);
     }
 
 }

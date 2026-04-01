@@ -19,6 +19,10 @@ import cms.testutil.PersonBuilder;
 
 public class PersonTest {
 
+    private static final String NUSID_FOR_SOC_USERNAME_MATCH_TEST = "A1234567B";
+    private static final String SOCUSERNAME_MATCHING_NUSID_FOR_TEST = "A1234567b";
+    private static final String SOCUSERNAME_MISMATCHING_NUSID_FOR_TEST = "a7654321b";
+
     @Test
     public void create_returnsCorrectSubtypeForRole() {
         Person student = new PersonBuilder().withRole("student").build();
@@ -32,6 +36,26 @@ public class PersonTest {
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Person person = new PersonBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
+    }
+
+    @Test
+    public void constructor_socUsernameInNusIdFormatMismatch_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, Person.MESSAGE_SOC_USERNAME_NUS_ID_MISMATCH, () ->
+            new PersonBuilder()
+                .withNusId(NUSID_FOR_SOC_USERNAME_MATCH_TEST)
+                .withSocUsername(SOCUSERNAME_MISMATCHING_NUSID_FOR_TEST)
+                .build());
+    }
+
+    @Test
+    public void constructor_socUsernameInNusIdFormatMatch_success() {
+        Person person = new PersonBuilder()
+                .withNusId(NUSID_FOR_SOC_USERNAME_MATCH_TEST)
+                .withSocUsername(SOCUSERNAME_MATCHING_NUSID_FOR_TEST)
+                .build();
+
+        assertEquals(NUSID_FOR_SOC_USERNAME_MATCH_TEST, person.getNusId().value);
+        assertEquals("a1234567b", person.getSocUsername().value); // canonicalised to lowercase
     }
 
     @Test
@@ -159,7 +183,7 @@ public class PersonTest {
             + ", phone=" + ALICE.getPhone()
                 + ", email=" + ALICE.getEmail() + ", nusId=" + ALICE.getNusId()
                 + ", socUsername=" + ALICE.getSocUsername()
-            + ", githubUsername=" + ALICE.getGithubUsername()
+                + ", githubUsername=" + ALICE.getGithubUsername()
                 + ", role=" + ALICE.getRole() + ", tutorialGroup=" + ALICE.getTutorialGroup()
                 + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());

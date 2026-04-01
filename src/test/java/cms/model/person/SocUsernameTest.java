@@ -19,7 +19,7 @@ public class SocUsernameTest {
     @Test
     public void isValidSocUsername_canonicalInput() {
         // null input
-        assertThrows(NullPointerException.class, () -> SocUsername.isValidSocUsername(null));
+        assertFalse(SocUsername.isValidSocUsername(null));
 
         // invalid canonical forms
         assertFalse(SocUsername.isValidSocUsername("tak")); // too short
@@ -30,6 +30,15 @@ public class SocUsernameTest {
 
         // valid canonical forms
         assertTrue(SocUsername.isValidSocUsername("tan8888"));
+        assertTrue(SocUsername.isValidSocUsername("u1999999"));
+        assertTrue(SocUsername.isValidSocUsername("a0234567b"));
+    }
+
+    @Test
+    public void isValidSocUsername_nonCanonicalInput() {
+        // valid after canonicalisation
+        assertTrue(SocUsername.isValidSocUsername("  Tan8888  "));
+        assertTrue(SocUsername.isValidSocUsername("  A0234567B  "));
         assertTrue(SocUsername.isValidSocUsername("u1999999")); // accepted by current regex
         assertTrue(SocUsername.isValidSocUsername("a0234567b")); // valid NUS-ID form (case-insensitive)
     }
@@ -42,8 +51,8 @@ public class SocUsernameTest {
         assertDoesNotThrow(() -> new SocUsername("tanmow99"));
         assertDoesNotThrow(() -> new SocUsername("tanga"));
         assertDoesNotThrow(() -> new SocUsername("tang8888"));
-        assertDoesNotThrow(() -> new SocUsername("u1999999")); // accepted by original regex
-        assertDoesNotThrow(() -> new SocUsername("A0234567B")); // valid NUS-ID form
+        assertDoesNotThrow(() -> new SocUsername("u1999999"));
+        assertDoesNotThrow(() -> new SocUsername("A0234567B")); // canonicalised to lowercase NUS-ID form
     }
 
     @Test
@@ -51,6 +60,7 @@ public class SocUsernameTest {
         // invalid soc usernames
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("tak")); // too short
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("tanahkow88")); // too long
+        assertThrows(IllegalArgumentException.class, () -> new SocUsername("a02345678")); // invalid NUS-ID form
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("-tanmow")); // cannot start with hyphen
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("tanmow-")); // cannot end with hyphen
         assertThrows(IllegalArgumentException.class, () -> new SocUsername("tan mow")); // cannot contain spaces

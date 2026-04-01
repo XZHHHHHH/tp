@@ -18,7 +18,7 @@ public class NameTest {
     @Test
     public void isValidName_canonicalInput() {
         // null name
-        assertThrows(NullPointerException.class, () -> Name.isValidName(null));
+        assertFalse(Name.isValidName(null));
 
         // invalid name
         assertFalse(Name.isValidName("")); // empty string
@@ -37,6 +37,11 @@ public class NameTest {
         assertTrue(Name.isValidName("Capital Tan")); // with capital letters
         assertTrue(Name.isValidName("a".repeat(Name.MAX_LENGTH))); // length boundary
         assertTrue(Name.isValidName("David Roger Jackson Ray Junior")); // long names
+    }
+
+    @Test
+    public void isValidName_nonCanonicalInput() {
+        assertTrue(Name.isValidName("  John   Doe  "));
     }
 
     @Test
