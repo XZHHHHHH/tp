@@ -1,6 +1,9 @@
 package cms.logic.commands;
 
 import static cms.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -29,5 +32,22 @@ public class HelpCommandTest {
                 false,
                 AddCommand.MESSAGE_USAGE);
         assertCommandSuccess(new HelpCommand(AddCommand.COMMAND_WORD), model, expectedCommandResult, expectedModel);
+    }
+
+    @Test
+    public void equals() {
+        HelpCommand helpCommand = new HelpCommand();
+
+        assertTrue(helpCommand.equals(helpCommand));
+        assertFalse(helpCommand.equals(null));
+        assertFalse(helpCommand.equals(new Object()));
+        assertEquals(new HelpCommand(), new HelpCommand());
+        assertEquals(new HelpCommand(AddCommand.COMMAND_WORD), new HelpCommand(AddCommand.COMMAND_WORD));
+    }
+
+    @Test
+    public void toOneLineHelp_noNewline_returnsSameLine() {
+        String result = HelpCommand.toOneLineHelp("list: Lists all persons.");
+        assertEquals("- list: Lists all persons.", result);
     }
 }

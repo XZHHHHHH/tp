@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 public class CommandResultTest {
@@ -65,5 +67,11 @@ public class CommandResultTest {
                 + commandResult.getFeedbackToUser() + ", showHelp=" + commandResult.isShowHelp()
                 + ", exit=" + commandResult.isExit() + ", helpContent=" + null + "}";
         assertEquals(expected, commandResult.toString());
+    }
+
+    @Test
+    public void getHelpContent() {
+        assertEquals(Optional.empty(), new CommandResult("feedback").getHelpContent());
+        assertEquals(Optional.of("help"), new CommandResult("feedback", true, false, "help").getHelpContent());
     }
 }

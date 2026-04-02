@@ -81,8 +81,7 @@ public class HelpCommand extends Command {
 
     static String getAllHelpMessages() {
         String header = "Available commands (use /help COMMAND for full usage):";
-        return HELP_MESSAGES.entrySet().stream()
-                .map(Map.Entry::getValue)
+        return HELP_MESSAGES.values().stream()
                 .map(HelpCommand::toOneLineHelp)
                 .collect(Collectors.joining("\n", header + "\n", ""));
     }
@@ -92,7 +91,7 @@ public class HelpCommand extends Command {
         return HELP_MESSAGES.get(commandWord.toLowerCase(Locale.ROOT));
     }
 
-    private static String toOneLineHelp(String fullHelpMessage) {
+    static String toOneLineHelp(String fullHelpMessage) {
         int firstLineBreak = fullHelpMessage.indexOf('\n');
         String oneLine = firstLineBreak >= 0
                 ? fullHelpMessage.substring(0, firstLineBreak)
