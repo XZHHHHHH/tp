@@ -59,7 +59,7 @@ public class UniquePersonListTest {
     @Test
     public void containsFieldConflict_personWithConflictingFieldInList_returnsTrue() {
         uniquePersonList.add(ALICE);
-        Person editedAlice = new PersonBuilder(ALICE).withNusId("A1234567X").build();
+        Person editedAlice = new PersonBuilder(ALICE).withNusMatric("A1234567X").build();
         assertTrue(uniquePersonList.containsFieldConflict(editedAlice));
     }
 
@@ -91,7 +91,7 @@ public class UniquePersonListTest {
     @Test
     public void add_personWithConflictingEmail_throwsDuplicatePersonFieldException() {
         uniquePersonList.add(ALICE);
-        Person editedAlice = new PersonBuilder(ALICE).withNusId("A1234567X").build();
+        Person editedAlice = new PersonBuilder(ALICE).withNusMatric("A1234567X").build();
         FieldConflict conflict = new FieldConflict(FieldConflict.Type.EMAIL, ALICE);
         String expectedErrorMessage = DuplicatePersonFieldException.buildMessage(conflict);
 
@@ -252,7 +252,7 @@ public class UniquePersonListTest {
 
     @Test
     public void setPersons_listWithDuplicateFields_throwsDuplicatePersonFieldException() {
-        Person editedAlice = new PersonBuilder(ALICE).withNusId("A1234567X").build();
+        Person editedAlice = new PersonBuilder(ALICE).withNusMatric("A1234567X").build();
         List<Person> listWithDuplicateFieldPersons = Arrays.asList(ALICE, editedAlice);
         FieldConflict conflict = new FieldConflict(FieldConflict.Type.EMAIL, editedAlice);
         String expectedErrorMessage = DuplicatePersonFieldException.buildMessage(conflict);
@@ -343,12 +343,12 @@ public class UniquePersonListTest {
         assertEquals(uniquePersonList.asUnmodifiableObservableList().toString(), uniquePersonList.toString());
     }
 
-    private static Person createSortTestPerson(String name, String nusId, String email,
+    private static Person createSortTestPerson(String name, String nusMatric, String email,
                                                String socUsername, String githubUsername,
                                                String tutorialGroup) {
         return new PersonBuilder()
                 .withName(name)
-                .withNusId(nusId)
+                .withNusMatric(nusMatric)
                 .withEmail(email)
                 .withSocUsername(socUsername)
                 .withGithubUsername(githubUsername)

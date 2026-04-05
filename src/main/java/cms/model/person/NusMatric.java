@@ -4,13 +4,13 @@ import static cms.commons.util.AppUtil.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Represents a Person's NUS ID in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidNusId(String)}
+ * Represents a Person's NUS Matric in the address book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidNusMatric(String)}
  */
-public class NusId {
+public class NusMatric {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "NUS ID must be in the format A#######X or U######X with a valid checksum, where # is a digit "
+            "NUS Matric must be in the format A#######X or U######X with a valid checksum, where # is a digit "
                 + "and X is a letter (e.g., A0234567X or U023456W). Legacy U####### input is also accepted "
                 + "and canonicalised to U######X (e.g., U0906931 is accepted and canonicalised to U096931E).";
     public static final String VALIDATION_REGEX = "(A\\d{7}|U\\d{6})[A-Z]";
@@ -23,19 +23,19 @@ public class NusId {
     public final String value;
 
     /**
-     * Constructs a {@code NusId}.
+     * Constructs a {@code NusMatric}.
      *
-     * @param nusId A valid NUS ID.
+     * @param nusMatric A valid NUS Matric.
      */
-    public NusId(String nusId) {
-        requireNonNull(nusId);
-        String canonical = canonicalise(nusId);
-        checkArgument(isValidNusId(canonical), MESSAGE_CONSTRAINTS);
+    public NusMatric(String nusMatric) {
+        requireNonNull(nusMatric);
+        String canonical = canonicalise(nusMatric);
+        checkArgument(isValidNusMatric(canonical), MESSAGE_CONSTRAINTS);
         value = canonical;
     }
 
     /**
-     * Canonicalises the NUS ID: trims spaces and converts to uppercase.
+     * Canonicalises the NUS Matric: trims spaces and converts to uppercase.
      */
     public static String canonicalise(String input) {
         if (input == null) {
@@ -61,9 +61,9 @@ public class NusId {
     }
 
     /**
-     * Returns true if a given string is a valid NUS ID.
+     * Returns true if a given string is a valid NUS Matric.
      */
-    public static boolean isValidNusId(String test) {
+    public static boolean isValidNusMatric(String test) {
         if (test == null) {
             return false;
         }
@@ -107,12 +107,12 @@ public class NusId {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof NusId)) {
+        if (!(other instanceof NusMatric)) {
             return false;
         }
 
-        NusId otherNusId = (NusId) other;
-        return value.equals(otherNusId.value);
+        NusMatric otherNusMatric = (NusMatric) other;
+        return value.equals(otherNusMatric.value);
     }
 
     @Override
