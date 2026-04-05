@@ -184,20 +184,6 @@ Expected result:
 * Matching person(s) are removed from the Person List Panel.
 * The Result Display confirms which person(s) were deleted.
 
-### Viewing help : `help`
-
-Opens the Help Window with a hyperlink to this [User Guide](UserGuide.html), or usage for a specific command.
-
-Format: `help [COMMAND]`
-
-* If `COMMAND` is omitted, CMS shows a brief command summary.
-* If `COMMAND` is provided (for example `add`), CMS shows detailed usage for that command.
-* The Help Window is opened if closed, otherwise the same window is focused.
-
-Examples:
-* `help`
-* `help add`
-
 ### Importing records from a JSON file : `import`
 
 Imports records from a `.json` file into CMS.
@@ -232,6 +218,20 @@ Format: `export FILE_PATH`
 Examples:
 * `export data/backup.json`
 * `export "C:/Users/Test/My Documents/backup.json"`
+
+### Viewing help : `help`
+
+Opens the Help Window with a hyperlink to this [User Guide](UserGuide.html), or usage for a specific command.
+
+Format: `help [COMMAND]`
+
+* If `COMMAND` is omitted, CMS shows a brief command summary.
+* If `COMMAND` is provided (for example `add`), CMS shows detailed usage for that command.
+* The Help Window is opened if closed, otherwise the same window is focused.
+
+Examples:
+* `help`
+* `help add`
 
 ### Purging all records : `clear`
 
