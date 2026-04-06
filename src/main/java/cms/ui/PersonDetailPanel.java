@@ -71,9 +71,9 @@ public class PersonDetailPanel extends UiPart<Region> {
         name.setText(person.getName().fullName);
         role.setText(person.getRole().value.toUpperCase());
         tutorialGroup.setText(String.valueOf(person.getTutorialGroup().value));
-        nusMatric.setText(person.getNusMatric().value);
 
         if (isMasked) {
+            nusMatric.setText(MaskingUtil.maskNusMatric(person.getNusMatric()));
             socUsername.setText(MaskingUtil.maskSocUsername(person.getSocUsername()));
             githubUsername.setText(MaskingUtil.maskGithubUsername(person.getGithubUsername()));
             githubUsername.setOnAction(null);
@@ -81,6 +81,7 @@ public class PersonDetailPanel extends UiPart<Region> {
             email.setOnAction(null);
             phone.setText(MaskingUtil.maskPhone(person.getPhone()));
         } else {
+            nusMatric.setText(person.getNusMatric().value);
             socUsername.setText(person.getSocUsername().value);
             String githubUrl = "https://github.com/" + person.getGithubUsername().value;
             githubUsername.setText(githubUrl);
