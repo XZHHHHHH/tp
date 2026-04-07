@@ -42,8 +42,8 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_INVALID_DATA =
             "Import file contains invalid Course Management System data.";
     public static final String MESSAGE_KEEP_REQUIRED_NON_EMPTY = "Current data is non-empty. "
-            + "Re-run with keep/current to keep existing values on conflicts, "
-            + "or keep/incoming to use imported values on conflicts.";
+            + "Re-run the import command and add keep/current or keep/incoming "
+            + "after the import command to choose how conflicts are resolved.";
 
     /** Resolution policy when importing into a non-empty address book. */
     public enum KeepPolicy {
