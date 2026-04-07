@@ -58,11 +58,15 @@ Action | Format
 --------|------------------
 **List** | `list`
 **Add** | `add n/NAME id/NUS_ID [role/ROLE] soc/SOC_USERNAME gh/GITHUB_USERNAME e/EMAIL p/PHONE t/TUTORIAL_GROUP [tag/TAG MORE_TAGS]...`<br><br>e.g. `add n/John Doe id/A0234567B role/tutor soc/johndoe gh/johndoe e/johndoe@u.nus.edu p/91234567 t/01`
-**Find** | `find a/KEYWORD [MORE_KEYWORDS]...`<br>`find n/KEYWORD [MORE_NAME_KEYWORDS]...`<br>`find id/NUS_ID [MORE_NUS_IDS]...`<br><br>e.g. `find n/jane n/eunice id/A0123456B`
 **Edit** | `edit INDEX [n/NAME] [id/NUS_ID] [role/ROLE] [soc/SOC_USERNAME] [gh/GITHUB_USERNAME] [e/EMAIL] [p/PHONE] [t/TUTORIAL_GROUP] [tag/TAG]...`<br><br>e.g. `edit 2 p/98765432 e/johndoe@example.com`
 **Delete** | `delete INDEX`<br>`delete INDEX [MORE_INDEXES]...`<br>`delete id/NUS_ID`<br><br>e.g. `delete 1 3 5`
+**Find** | `find a/KEYWORD [MORE_KEYWORDS]...`<br>`find n/KEYWORD [MORE_NAME_KEYWORDS]...`<br>`find id/NUS_ID [MORE_NUS_IDS]...`<br><br>e.g. `find n/jane n/eunice id/A0123456B`
+**Filter** | `filter [tag/TAG]... [t/TUTORIAL_GROUP_NUMBER]...`<br><br>e.g. `filter tag/friends t/01`
+**Sort** | `sort tg`<br>`sort name`<br><br>e.g. `sort tg`
 **Import** | `import FILE_PATH [keep/current|keep/incoming]`<br><br>e.g. `import data/addressbook.json keep/current`
 **Export** | `export FILE_PATH`<br><br>e.g. `export "C:\\Users\\Josh\\Documents\\backup.json"`
+**Mask** | `mask`
+**Unmask** | `unmask`
 **Help** | `help [COMMAND]`
 **Clear** | `clear`
 **Exit** | `exit`
@@ -112,35 +116,6 @@ Expected result:
 Add is rejected if unique fields conflict with an existing person (e.g. same NUS ID / SoC username / GitHub username / email).
 </div>
 
-### Finding students / tutors : `find`
-
-Finds persons whose names or NUS IDs contain any of the given keywords.
-
-Format:
-* `find a/KEYWORD [MORE_KEYWORDS]...`
-* `find n/KEYWORD [MORE_NAME_KEYWORDS]...`
-* `find id/NUS_ID [MORE_NUS_IDS]...`
-* `find n/KEYWORD [MORE_NAME_KEYWORDS]... id/NUS_ID [MORE_NUS_IDS]...`
-
-* Prefix is required (`a/`, `n/`, `id/`).
-* Search is case-insensitive for names. e.g. `n/hans` will match `Hans`.
-* Order of keywords does not matter for name search. e.g. `find n/Hans n/Bo` will match `find n/Bo n/Hans`.
-* Full words are matched for names. e.g. `find n/Han` will not match `Hans`.
-* `id/` matching is case-insensitive. e.g. `id/a0123456b` matches `A0123456B`.
-* Mixed prefixes are allowed in one command, and results are returned by union (OR across prefixes).
-
-Examples:
-* `find a/jane`
-* `find n/jane n/eunice`
-* `find n/jane eunice`
-* `find n/jane n/eunice id/A0123456B id/A1234567C`
-* `find id/A0123456B A1234567C`
-* `find id/A0123456B id/A1234567C`
-
-Expected result:
-* The Person List Panel updates to show only matching persons.
-* If there are no matches, the list is empty.
-
 ### Editing a student / tutor : `edit`
 
 Edits an existing student or tutor record in CMS.
@@ -184,6 +159,66 @@ Expected result:
 * Matching person(s) are removed from the Person List Panel.
 * The Result Display confirms which person(s) were deleted.
 
+### Finding students / tutors : `find`
+
+Finds persons whose names or NUS IDs contain any of the given keywords.
+
+Format:
+* `find a/KEYWORD [MORE_KEYWORDS]...`
+* `find n/KEYWORD [MORE_NAME_KEYWORDS]...`
+* `find id/NUS_ID [MORE_NUS_IDS]...`
+* `find n/KEYWORD [MORE_NAME_KEYWORDS]... id/NUS_ID [MORE_NUS_IDS]...`
+
+* Prefix is required (`a/`, `n/`, `id/`).
+* Search is case-insensitive for names. e.g. `n/hans` will match `Hans`.
+* Order of keywords does not matter for name search. e.g. `find n/Hans n/Bo` will match `find n/Bo n/Hans`.
+* Full words are matched for names. e.g. `find n/Han` will not match `Hans`.
+* `id/` matching is case-insensitive. e.g. `id/a0123456b` matches `A0123456B`.
+* Mixed prefixes are allowed in one command, and results are returned by union (OR across prefixes).
+
+Examples:
+* `find a/jane`
+* `find n/jane n/eunice`
+* `find n/jane eunice`
+* `find n/jane n/eunice id/A0123456B id/A1234567C`
+* `find id/A0123456B A1234567C`
+* `find id/A0123456B id/A1234567C`
+
+Expected result:
+* The Person List Panel updates to show only matching persons.
+* If there are no matches, the list is empty.
+
+### Filtering by tag or tutorial group : `filter`
+
+Filters the currently visible list by one or both of these fields:
+* `tag/TAG`
+* `t/TUTORIAL_GROUP_NUMBER`
+
+Format: `filter [tag/TAG]... [t/TUTORIAL_GROUP_NUMBER]...`
+
+Examples:
+* `filter tag/friends`
+* `filter t/01`
+* `filter tag/friends t/01`
+
+Expected result:
+* The Person List Panel updates to persons matching all provided filter criteria.
+
+### Sorting records : `sort`
+
+Sorts all persons by name or tutorial group.
+
+Format:
+* `sort name`
+* `sort tg`
+
+Examples:
+* `sort name`
+* `sort tg`
+
+Expected result:
+* Persons are reordered based on the selected sort key.
+
 ### Importing records from a JSON file : `import`
 
 Imports records from a `.json` file into CMS.
@@ -213,21 +248,40 @@ Format: `export FILE_PATH`
 
 * `FILE_PATH` must end with `.json`.
 * File paths with spaces are supported, e.g. `C:/Users/Test/My Data/export.json`.
-* Quoted file paths are also supported, e.g. `"C:/Users/Test/My Data/export.json"`.
+* Quoted file paths are also supported, e.g. `"C:/Users/Test/My Documents/backup.json"`.
 
 Examples:
 * `export data/backup.json`
 * `export "C:/Users/Test/My Documents/backup.json"`
 
+### Masking sensitive fields : `mask`
+
+Masks sensitive fields (NUS ID, SoC username, GitHub username, email, phone number) in the person list and detail panels.
+
+Format: `mask`
+
+Expected result:
+* Sensitive fields are hidden until `unmask` is used.
+
+### Unmasking sensitive fields : `unmask`
+
+Unmasks sensitive fields in the person list and detail panels.
+
+Format: `unmask`
+
+Expected result:
+* Sensitive fields are shown again.
+
 ### Viewing help : `help`
 
-Opens the Help Window with a hyperlink to this [User Guide](UserGuide.html), or usage for a specific command.
+Opens the Help Window with command guidance and a User Guide link.
 
 Format: `help [COMMAND]`
 
 * If `COMMAND` is omitted, CMS shows a brief command summary.
 * If `COMMAND` is provided (for example `add`), CMS shows detailed usage for that command.
 * The Help Window is opened if closed, otherwise the same window is focused.
+* Pressing `F1` or clicking the Help menu item shows the same summary as running `help`.
 
 Examples:
 * `help`
