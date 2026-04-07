@@ -30,7 +30,10 @@ import cms.model.AddressBook;
 import cms.model.Model;
 import cms.model.ModelManager;
 import cms.model.UserPrefs;
+import cms.model.person.FieldConflict;
 import cms.model.person.Person;
+import cms.model.person.exceptions.DuplicatePersonException;
+import cms.model.person.exceptions.DuplicatePersonFieldException;
 import cms.testutil.EditPersonDescriptorBuilder;
 import cms.testutil.PersonBuilder;
 
@@ -133,7 +136,23 @@ public class EditCommandTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PERSON);
+        String expectedMessage = DuplicatePersonException.buildMessage(firstPerson);
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_conflictingUniqueFieldUnfilteredList_failure() {
+        Person conflictingPerson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
+        String conflictingEmail = conflictingPerson.getEmail().value;
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withEmail(conflictingEmail)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        String expectedMessage = DuplicatePersonFieldException.buildMessage(
+                new FieldConflict(FieldConflict.Type.EMAIL, conflictingPerson));
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test
@@ -145,7 +164,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
                 new EditPersonDescriptorBuilder(personInList).build());
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PERSON);
+        String expectedMessage = DuplicatePersonException.buildMessage(personInList);
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test
