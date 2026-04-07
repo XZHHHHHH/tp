@@ -17,6 +17,11 @@ public class NusMatricTest {
     }
 
     @Test
+    public void canonicalisation_of_null() {
+        assertEquals(null, NusMatric.canonicalise(null));
+    }
+
+    @Test
     public void isValidNusMatric_canonicalInput() {
         // null input
         assertFalse(NusMatric.isValidNusMatric(null));
