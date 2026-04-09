@@ -15,8 +15,6 @@ title: Developer Guide
 * Automated tests use [JUnit 5](https://junit.org/junit5/).
 * Documentation diagrams were created with [PlantUML](https://plantuml.com/).
 * The project website and documentation site are built with [Jekyll](https://jekyllrb.com/) and the [Minima](https://github.com/jekyll/minima) theme.
-* As recorded in [`copyright.txt`](../copyright.txt), some code was adapted from Marco Jakob's [JavaFX tutorial](https://code.makery.ch/library/javafx-tutorial/).
-* As recorded in [`copyright.txt`](../copyright.txt), some bundled image assets are attributed to [Susumu Yoshida](http://www.mcdodesign.com/) and [Jan Jan Kovařík / Glyphicons](http://glyphicons.com/).
 
 --------------------------------------------------------------------------------------------------------------------
 
