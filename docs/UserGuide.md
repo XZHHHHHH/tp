@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-Managing large cohorts with point-and-click workflows is slow, repetitive, and prone to mistakes, especially when student and tutor records must stay consistent. Course Management System (CMS) is built for NUS course coordinators who need speed and accuracy: a command-driven workflow with built-in validation and uniqueness checks that helps you complete routine record tasks in seconds with confidence.
+Are you spending too much time switching between spreadsheets, portals, and notes just to keep course records up to date? Course Management System (CMS) is designed for NUS SoC course coordinators who manage high-volume student and tutor data each term. If you are a fast typist, CMS helps you filter, update, and organize records quickly through straightforward commands, backed by a clean visual interface. No advanced technical background is required beyond basic computer skills.
 
 * Table of Contents
 {:toc}
@@ -518,19 +518,17 @@ Use this section as a quick checklist when adding or editing command examples an
 
 ## Glossary
 
-**CLI**: Command Line Interface used to control CMS by typing commands.
-
 **Command word**: The action keyword at the start of a command, e.g. `add`, `find`, `help`.
 
 **Field**: A value supplied with a prefix in a command, e.g. `n/John Doe`.
 
 **Prefix**: A marker that indicates what a field means, e.g. `n/`, `m/`, `e/`.
 
-**INDEX**: A 1-based position of a person in the currently displayed list.
+**Index**: A 1-based position of a person in the currently displayed list.
 
 **NUS Matric**: Identifier given by NUS in checksum-validated format `A` + 7 digits + a letter (e.g., `A0234567X`) or `U` + 6 digits + a letter (e.g., `U023456W`).
 
-**SoC username**: School of Computing account username stored in the `soc/` field.
+**SoC username**: SoC Unix account username stored in the `soc/` field.
 
 **Tutorial group**: Class/tutorial group number in the `t/` field.
 
