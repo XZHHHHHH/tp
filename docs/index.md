@@ -38,4 +38,5 @@ Managing 500+ students and tutors with point-and-click tools can be slow and err
 
 **Acknowledgements**
 
+* This codebase was evolved from [se-edu's AddressBook-Level3](https://github.com/se-edu/addressbook-level3).
 * Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
