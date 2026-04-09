@@ -147,6 +147,7 @@ Classes used by multiple components are in the `cms.commons` package.
 ## **Implementation**
 
 This section describes the current CMS implementation at a high level. The command flow, component responsibilities, and diagrams above reflect the existing architecture and supported command-based workflow.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -160,6 +161,8 @@ This section describes the current CMS implementation at a high level. The comma
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Requirements**
+
+Given below are the requirements of Course Management System.
 
 ### Product scope
 
