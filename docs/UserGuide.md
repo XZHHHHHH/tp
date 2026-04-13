@@ -167,6 +167,7 @@ Deletes one or more persons by displayed index, or by NUS Matric.
 * `id/` is required for index-based deletion.
 * Each index must refer to the current displayed list and be a positive integer.
 * Each NUS Matric must be valid.
+* Bulk deletion is all-or-nothing. If any provided index or NUS Matric is invalid, CMS does not delete any person from that command.
 
 **Examples:**
 * `delete id/2`
@@ -175,8 +176,9 @@ Deletes one or more persons by displayed index, or by NUS Matric.
 * `delete m/A0234567X A0345678L`
 
 **Expected result:**
-* Matching person(s) are removed from the Person List Panel.
-* The Result Display confirms which person(s) were deleted.
+* If all provided targets are valid, the matching person(s) are removed from the Person List Panel.
+* If any provided target is invalid, no person is deleted and CMS shows an error message.
+* The Result Display confirms which person(s) were deleted only when the command succeeds.
 
 ### Finding students / tutors : `find`
 
