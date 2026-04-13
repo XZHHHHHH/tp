@@ -436,7 +436,7 @@ Use this section as a quick checklist when adding or editing command examples an
 **`n/NAME`**
 * 1 to 128 characters and must include at least one letter.
 * Allowed characters: letters, spaces, hyphens (`-`), apostrophes (`'`), and periods (`.`).
-* Consecutive spaces are collapsed. E.g. `n/John       Doe` is treated as `n/John Doe`.
+* Consecutive spaces are collapsed. E.g. `n/John[multiple spaces]Doe` is treated as `n/John Doe`.
 * Case sensitivity: case-sensitive (stored as entered after space normalization).
 * Valid: `n/John Doe`
 * Invalid:
