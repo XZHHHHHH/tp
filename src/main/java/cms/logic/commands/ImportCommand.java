@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import cms.commons.exceptions.DataLoadingException;
+import cms.commons.exceptions.IllegalValueException;
 import cms.logic.commands.exceptions.CommandException;
 import cms.model.AddressBook;
 import cms.model.Model;
@@ -43,6 +44,8 @@ public class ImportCommand extends Command {
             "Import file is empty or not a valid Course Management System data file.";
     public static final String MESSAGE_INVALID_DATA =
             "Import file contains invalid Course Management System data.";
+    public static final String MESSAGE_INVALID_DATA_DETAILS_FORMAT =
+            "%s Details: %s";
     public static final String MESSAGE_STORAGE_CONTEXT_REQUIRED =
             "Import command requires storage context.";
     public static final String MESSAGE_KEEP_REQUIRED_NON_EMPTY = "Current data is non-empty. "
@@ -105,7 +108,7 @@ public class ImportCommand extends Command {
             importedAddressBook = storage.readAddressBook(importFilePath)
                     .orElseThrow(() -> new CommandException(MESSAGE_EMPTY_OR_INVALID_FILE));
         } catch (DataLoadingException dle) {
-            throw new CommandException(MESSAGE_INVALID_DATA, dle);
+            throw new CommandException(buildInvalidDataMessage(dle), dle);
         }
 
         boolean hasCurrentData = !model.getAddressBook().getPersonList().isEmpty();
@@ -230,6 +233,14 @@ public class ImportCommand extends Command {
         return details.toString();
     }
 
+    private String buildInvalidDataMessage(DataLoadingException dataLoadingException) {
+        Throwable cause = dataLoadingException.getCause();
+        if (!(cause instanceof IllegalValueException) || cause.getMessage() == null || cause.getMessage().isEmpty()) {
+            return MESSAGE_INVALID_DATA;
+        }
+        return String.format(MESSAGE_INVALID_DATA_DETAILS_FORMAT, MESSAGE_INVALID_DATA, cause.getMessage());
+    }
+
     public Path getImportFilePath() {
         return importFilePath;
     }
@@ -258,3 +269,5 @@ public class ImportCommand extends Command {
         return java.util.Objects.hash(importFilePath, keepPolicy);
     }
 }
+
+

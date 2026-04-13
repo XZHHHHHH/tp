@@ -39,6 +39,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import cms.commons.exceptions.DataLoadingException;
+import cms.commons.exceptions.IllegalValueException;
 import cms.logic.commands.AddCommand;
 import cms.logic.commands.CommandResult;
 import cms.logic.commands.ExportCommand;
@@ -306,6 +307,31 @@ public class LogicManagerTest {
 
         assertCommandFailure(importCommand, CommandException.class,
             "Import file contains invalid Course Management System data.");
+    }
+
+    @Test
+    public void executeImportCommandInvalidDataShowsDetailsForIllegalValue() {
+        Path prefPath = temporaryFolder.resolve("addressBook.json");
+
+        JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(prefPath) {
+            @Override
+            public Optional<ReadOnlyAddressBook> readAddressBook(Path filePath) throws DataLoadingException {
+                throw new DataLoadingException(new IllegalValueException("duplicate field in persons list"));
+            }
+        };
+
+        JsonUserPrefsStorage userPrefsStorage =
+                new JsonUserPrefsStorage(temporaryFolder.resolve("ExceptionUserPrefs.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        logic = new LogicManager(model, storage);
+
+        Path importPath = temporaryFolder.resolve("imports").resolve("invalid.json");
+        String importCommand = ImportCommand.COMMAND_WORD + " \"" + importPath + "\"";
+
+        CommandException thrownException = org.junit.jupiter.api.Assertions.assertThrows(
+                CommandException.class, () -> logic.execute(importCommand));
+        assertTrue(thrownException.getMessage().contains(ImportCommand.MESSAGE_INVALID_DATA));
+        assertTrue(thrownException.getMessage().contains("duplicate field in persons list"));
     }
 
     @Test
